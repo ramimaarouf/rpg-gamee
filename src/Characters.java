@@ -54,7 +54,32 @@ public int setW (int w){
 public int setH(int h){
     return this.h;
 }
+public int getSp(int sp){
+    return this.speed;
+
 }
+public int getHea(int hea){
+    return this.health;
+}
+public int getDam(int dam){
+    return this.damage;
+}
+public int getStam(int stam){
+    return this.stam;
+
+}
+public int setDx(int Dx){
+    return this.dx=dx;
+
+
+}
+public int setDy(int Dy){
+    return this.dy=dy;
+
+}
+
+}
+
 
 
 
