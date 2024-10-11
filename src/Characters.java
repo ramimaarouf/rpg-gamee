@@ -39,46 +39,74 @@ g2d.drawImage(pic.getImage(), x , y , w, h, null);
 public int getX(){
     return this.x;
 }
-public void setX (int x){
-    this.x=x;
-}
 public int getY(){
     return this.y;
+}
+public int getW (){
+    return this.w;
+}
+public int getH(){
+    return this.h;
+}
+public int getSp(){
+    return this.speed;
+
+}
+public int getHea(){
+    return this.health;
+}
+public int getDam(){
+    return this.damage;
+}
+public int getStam(){
+    return this.stam;
+
+}
+public int getDx(int Dx){
+    return this.dx;
+
+
+}
+public int getDy(int Dy){
+    return this.dy;
+
+}
+public ImageIcon getPic ( )
+{return pic;}
+//setters
+public void setX (int x){
+    this.x=x;
 }
 public void setY (int y){
     this.y=y;
 }
-public int setW (int w){
-    return this.w;
+public void setW (int w){
+    this.w=w;
 }
-public int setH(int h){
-    return this.h;
-}
-public int getSp(int sp){
-    return this.speed;
+public void setH(int h){
+    this.h=h;
 
 }
-public int getHea(int hea){
-    return this.health;
+public void setSP (int speed){
+    this.speed=speed;
 }
-public int getDam(int dam){
-    return this.damage;
+public void setHea(int health){
+    this.health=health;
 }
-public int getStam(int stam){
-    return this.stam;
+public void setDam(int damage){
+    this.damage=damage;
+}
+public void setStam(int stamina){
+    this.stam=stamina;
+}
+public void setDx(int dx){
+    this.dx=dx;
+}
+public void setDy(int dy){
+    this.dy=dy;
+}
+}
 
-}
-public int setDx(int Dx){
-    return this.dx=dx;
-
-
-}
-public int setDy(int Dy){
-    return this.dy=dy;
-
-}
-
-}
 
 
 

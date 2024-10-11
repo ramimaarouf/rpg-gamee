@@ -18,6 +18,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 
     private ArrayList<Characters> charList;
     public String screen;
+    private Characters player;
 
     public Game() {
 
@@ -37,12 +38,15 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 
         charList = setCharList();
         System.out.println(charList.size());
+    
 
         for (Characters c : charList) {
 
             System.out.println(c);
 
         }
+        screen="start";
+
     }
 
     public ArrayList<Characters> setCharList() {
@@ -85,8 +89,40 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
         g2d.drawString("Hello!", x, y);
 
         twoDgraph.drawImage(back, null, 0, 0);
+        drawScreens(g2d);
 
     }
+
+    private void drawScreens(Graphics g2d) {
+        // TODO Auto-generated method stub
+       switch(screen){
+        case "start":
+        drawStartScreen(g2d);
+          break;
+        case "selection":
+        drawSelectScreen(g2d);
+
+       }
+       
+    }
+
+    private void drawSelectScreen(Graphics g2d) {
+        g2d.drawString("You picked"+player.toString(),200,500 );
+        player.drawChar(g2d);
+
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'drawSelectScreen'");
+    }
+
+    private void drawStartScreen(Graphics g2d) {
+for(Characters c: charList){
+    c.drawChar(g2d);
+   
+}
+
+}
+
+
 
     // DO NOT DELETE
     @Override
@@ -102,6 +138,10 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
         key = e.getKeyCode();
 
         System.out.println(key);
+        if(key==32){
+            screen="selection";
+            player=charList.get(1);
+        }
 
     }
 
