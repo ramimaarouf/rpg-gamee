@@ -4,7 +4,7 @@ public class bob extends Characters {
 super();
     }
     public bob (int x, int y){
-        super(x,y,20,20,15,5000,500,450,new ImageIcon("holden.png"));
+        super(x,y,20,20,15,5000,500,450,new ImageIcon("images/bob.png"));
     }
     
     }

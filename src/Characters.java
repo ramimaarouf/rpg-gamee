@@ -1,5 +1,4 @@
 import java.awt.Graphics;
-
 import javax.swing.ImageIcon;
 
 public class Characters{
@@ -106,8 +105,3 @@ public void setDy(int dy){
     this.dy=dy;
 }
 }
-
-
-
-
-

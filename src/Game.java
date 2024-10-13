@@ -1,12 +1,8 @@
-import javax.swing.*;
-
 import java.awt.*;
-
-import java.awt.image.BufferedImage;
-
-import java.util.ArrayList;
-
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import javax.swing.*;
 
 public class Game extends JPanel implements Runnable, KeyListener, MouseListener,
 
@@ -52,17 +48,15 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
     public ArrayList<Characters> setCharList() {
         ArrayList<Characters> temp = new ArrayList<Characters>();
 
-        temp.add(new cory(100, 100));
-
-        temp.add(new rami(50, 50));
-
-        temp.add(new bob(20, 20));
-
-        temp.add(new jack(100, 100));
+    temp.add(new cory(250, 100)); 
+    temp.add(new rami(400, 100)); 
+    temp.add(new bob(550, 100));  
+    temp.add(new jack(600, 100)); 
         System.out.println(temp.size());
         return temp;
 
     }
+    
 
     public void run() {
         try {
@@ -107,8 +101,8 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
     }
 
     private void drawSelectScreen(Graphics g2d) {
-        g2d.drawString("You picked"+player.toString(),200,500 );
         player.drawChar(g2d);
+      g2d.drawString("You picked"+player.toString(),200,500 );
 
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'drawSelectScreen'");

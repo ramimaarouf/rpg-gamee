@@ -4,7 +4,7 @@ public class rami extends Characters {
 super();
     }
     public rami (int x, int y){
-        super(x,y,50,50,300,500,15,1000,new ImageIcon("rami.png"));
+        super(x,y,50,50,300,500,15,1000,new ImageIcon("images/rami.png"));
     }
     public String toString(){
         return "rami"+ super.getHea();

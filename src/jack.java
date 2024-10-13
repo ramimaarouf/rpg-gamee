@@ -4,7 +4,7 @@ public class jack extends Characters {
 super();
     }
     public jack (int x, int y){
-        super(x,y,100,100,1000,400,400,600,new ImageIcon("holden.png"));
+        super(x,y,100,100,1000,400,400,600,new ImageIcon("images/jack.png"));
     }
     
     }
