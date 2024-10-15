@@ -94,6 +94,20 @@ if ("character1".equals(screen)) {
         g2d.drawString("Speed: " + player.getSp(), 100, 210);
         g2d.drawString("Stamina: " + player.getStam(), 100, 260);
         g2d.drawString("Damage: " + player.getDam(), 100, 310);
+    } else if ("character3".equals(screen)) {
+        g2d.setColor(Color.YELLOW);
+        g2d.drawString("Character Name: Bob", 100, 110);
+        g2d.drawString("Health: " + player.getHea(), 100, 160);
+        g2d.drawString("Speed: " + player.getSp(), 100, 210);
+        g2d.drawString("Stamina: " + player.getStam(), 100, 260);
+        g2d.drawString("Damage: " + player.getDam(), 100, 310);
+    }else if ("character4".equals(screen)) {
+            g2d.setColor(Color.YELLOW);
+            g2d.drawString("Character Name: Jack", 100, 110);
+            g2d.drawString("Health: " + player.getHea(), 100, 160);
+            g2d.drawString("Speed: " + player.getSp(), 100, 210);
+            g2d.drawString("Stamina: " + player.getStam(), 100, 260);
+            g2d.drawString("Damage: " + player.getDam(), 100, 310);
     } else {
         g2d.drawString("Hello, Select a character!", 300, 300);
     }
@@ -122,6 +136,12 @@ case "character1":
     break;
     case "character2":
     drawCharacter2(g2d);
+    break;
+    case "character3":
+    drawCharacter3(g2d);
+    break;
+    case "character4":
+    drawCharacter4(g2d);
        }
        
     }
@@ -169,6 +189,34 @@ private void drawCharacter1(Graphics g2d) {
             g2d.drawString("Stamina: " + player.getStam(), 100, 220);
             g2d.drawString("Damage: " + player.getDam(), 100, 250);
 }
+    }
+private void drawCharacter3(Graphics g2d) {
+    if (player != null) {
+        player.drawChar(g2d);
+        g2d.setFont(new Font("Arial", Font.PLAIN, 20));
+        g2d.setColor(Color.YELLOW); // Set the text color to yellow
+        g2d.drawString("Character 3 Screen", 100, 100);
+        g2d.drawString("Character Name: " + player.toString(), 100, 130);
+        g2d.drawString("Character Name: " + player.toString(), 100, 130);
+        g2d.drawString("Health: " + player.getHea(), 100, 160);
+        g2d.drawString("Speed: " + player.getSp(), 100, 190);
+        g2d.drawString("Stamina: " + player.getStam(), 100, 220);
+        g2d.drawString("Damage: " + player.getDam(), 100, 250);
+}
+}
+private void drawCharacter4(Graphics g2d) {
+    if (player != null) {
+        player.drawChar(g2d);
+        g2d.setFont(new Font("Arial", Font.PLAIN, 20));
+        g2d.setColor(Color.YELLOW); // Set the text color to yellow
+        g2d.drawString("Character 4 Screen", 100, 100);
+        g2d.drawString("Character Name: " + player.toString(), 100, 130);
+        g2d.drawString("Character Name: " + player.toString(), 100, 130);
+        g2d.drawString("Health: " + player.getHea(), 100, 160);
+        g2d.drawString("Speed: " + player.getSp(), 100, 190);
+        g2d.drawString("Stamina: " + player.getStam(), 100, 220);
+        g2d.drawString("Damage: " + player.getDam(), 100, 250);
+}
 }
 
 
@@ -197,8 +245,18 @@ private void drawCharacter1(Graphics g2d) {
             player = charList.get(2);
             System.out.println("Screen switched to: " + screen);
             repaint();  
+        } else if (key == 51) {
+            screen = "character3";
+            player = charList.get(3);
+            System.out.println("Screen switched to: " + screen);
+            repaint();  
+    } else if (key == 52) {
+        screen = "character4";
+        player = charList.get(4);
+        System.out.println("Screen switched to: " + screen);
+        repaint();  
             }
-        }
+    }
 
     
 
