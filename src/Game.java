@@ -17,7 +17,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
     private Characters player;
 
     public Game() {
-
+       
         new Thread(this).start();
 
         this.addKeyListener(this);
@@ -48,10 +48,10 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
     public ArrayList<Characters> setCharList() {
         ArrayList<Characters> temp = new ArrayList<Characters>();
 
-    temp.add(new cory(250, 100)); 
-    temp.add(new rami(400, 100)); 
-    temp.add(new bob(550, 100));  
-    temp.add(new jack(600, 100)); 
+    temp.add(new cory(250, 400)); 
+    temp.add(new rami(600, 400)); 
+    temp.add(new bob(950, 400));  
+    temp.add(new jack(1300, 400)); 
         System.out.println(temp.size());
         return temp;
 
@@ -79,13 +79,16 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
         g2d.clearRect(0, 0, getSize().width, getSize().height);
 
         g2d.setFont(new Font("Broadway", Font.BOLD, 50));
+        g2d.setColor(Color.WHITE); 
 
-        g2d.drawString("Hello!", x, y);
-
-        twoDgraph.drawImage(back, null, 0, 0);
-        drawScreens(g2d);
-
+        g2d.drawString("Hello , Select a character!", 300, 300);
+    for (Characters c : charList) {
+        c.drawChar(g2d);  // Call drawChar to draw each character
     }
+    twoDgraph.drawImage(back, null, 0, 0);
+    drawScreens(g2d);
+    
+}
 
     private void drawScreens(Graphics g2d) {
         // TODO Auto-generated method stub
@@ -95,7 +98,10 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
           break;
         case "selection":
         drawSelectScreen(g2d);
+break;
 
+case "character1":
+    drawCharacter1(g2d);
        }
        
     }
@@ -116,6 +122,20 @@ for(Characters c: charList){
 
 }
 
+private void drawCharacter1(Graphics g2d) {
+    if (player != null) {
+        player.drawChar(g2d);
+        g2d.setFont(new Font("Arial", Font.PLAIN, 20));
+        g2d.setColor(Color.YELLOW); // Set the text color to yellow
+        g2d.drawString("Character 1 Screen", 100, 100);
+        g2d.drawString("Character Name: " + player.toString(), 100, 130);
+        g2d.drawString("Character Name: " + player.toString(), 100, 130);
+        g2d.drawString("Health: " + player.getHea(), 100, 160);
+        g2d.drawString("Speed: " + player.getSp(), 100, 190);
+        g2d.drawString("Stamina: " + player.getStam(), 100, 220);
+        g2d.drawString("Damage: " + player.getDam(), 100, 250);
+    }
+}
 
 
     // DO NOT DELETE
@@ -132,9 +152,9 @@ for(Characters c: charList){
         key = e.getKeyCode();
 
         System.out.println(key);
-        if(key==32){
-            screen="selection";
-            player=charList.get(1);
+        if (key == KeyEvent.VK_1) { 
+            screen = "character1";
+            player = charList.get(1);
         }
 
     }
@@ -192,4 +212,5 @@ for(Characters c: charList){
     public void mouseReleased(MouseEvent arg0) {
         // TODO Auto-generated method stub
     }
-}
+
+    }
