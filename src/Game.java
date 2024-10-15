@@ -80,15 +80,32 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 
         g2d.setFont(new Font("Broadway", Font.BOLD, 50));
         g2d.setColor(Color.WHITE); 
-
-        g2d.drawString("Hello , Select a character!", 300, 300);
+if ("character1".equals(screen)) {
+    g2d.setColor(Color.YELLOW); 
+    g2d.drawString("Character Name: Cory", 100, 110);        
+    g2d.drawString("Health: " + player.getHea(), 100, 160);
+        g2d.drawString("Speed: " + player.getSp(), 100, 210);
+        g2d.drawString("Stamina: " + player.getStam(), 100, 260);
+        g2d.drawString("Damage: " + player.getDam(), 100, 310);
+    } else if ("character2".equals(screen)) {
+        g2d.setColor(Color.YELLOW);
+        g2d.drawString("Character Name: Rami", 100, 110);
+        g2d.drawString("Health: " + player.getHea(), 100, 160);
+        g2d.drawString("Speed: " + player.getSp(), 100, 210);
+        g2d.drawString("Stamina: " + player.getStam(), 100, 260);
+        g2d.drawString("Damage: " + player.getDam(), 100, 310);
+    } else {
+        g2d.drawString("Hello, Select a character!", 300, 300);
+    }
     for (Characters c : charList) {
-        c.drawChar(g2d);  // Call drawChar to draw each character
+        c.drawChar(g2d);  
     }
     twoDgraph.drawImage(back, null, 0, 0);
     drawScreens(g2d);
-    
+
 }
+    
+
 
     private void drawScreens(Graphics g2d) {
         // TODO Auto-generated method stub
@@ -102,6 +119,9 @@ break;
 
 case "character1":
     drawCharacter1(g2d);
+    break;
+    case "character2":
+    drawCharacter2(g2d);
        }
        
     }
@@ -136,6 +156,20 @@ private void drawCharacter1(Graphics g2d) {
         g2d.drawString("Damage: " + player.getDam(), 100, 250);
     }
 }
+    private void drawCharacter2(Graphics g2d) {
+        if (player != null) {
+            player.drawChar(g2d);
+            g2d.setFont(new Font("Arial", Font.PLAIN, 20));
+            g2d.setColor(Color.YELLOW); // Set the text color to yellow
+            g2d.drawString("Character 2 Screen", 100, 100);
+            g2d.drawString("Character Name: " + player.toString(), 100, 130);
+            g2d.drawString("Character Name: " + player.toString(), 100, 130);
+            g2d.drawString("Health: " + player.getHea(), 100, 160);
+            g2d.drawString("Speed: " + player.getSp(), 100, 190);
+            g2d.drawString("Stamina: " + player.getStam(), 100, 220);
+            g2d.drawString("Damage: " + player.getDam(), 100, 250);
+}
+}
 
 
     // DO NOT DELETE
@@ -150,14 +184,23 @@ private void drawCharacter1(Graphics g2d) {
     public void keyPressed(KeyEvent e) {
         // TODO Auto-generated method stub
         key = e.getKeyCode();
+        System.out.println("Key pressed: " + key);
 
         System.out.println(key);
-        if (key == KeyEvent.VK_1) { 
+        if (key == 49) { 
             screen = "character1";
-            player = charList.get(1);
+            player = charList.get(0);
+            System.out.println("Screen switched to: " + screen);
+            repaint();  
+        } else if (key == 50) {
+            screen = "character2";
+            player = charList.get(2);
+            System.out.println("Screen switched to: " + screen);
+            repaint();  
+            }
         }
 
-    }
+    
 
     // DO NOT DELETE
     @Override
