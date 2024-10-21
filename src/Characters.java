@@ -5,8 +5,7 @@ public class Characters{
    
     private int x,y,w,h , speed, health , damage,stam ,dx,dy;
 private ImageIcon pic;
-private int weapons;
-
+private weapons weap;
 public Characters (){
     x=0;
     y=0;
