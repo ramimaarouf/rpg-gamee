@@ -242,17 +242,17 @@ private void drawCharacter4(Graphics g2d) {
             repaint();  
         } else if (key == 50) {
             screen = "character2";
-            player = charList.get(2);
+            player = charList.get(1);
             System.out.println("Screen switched to: " + screen);
             repaint();  
         } else if (key == 51) {
             screen = "character3";
-            player = charList.get(3);
+            player = charList.get(2);
             System.out.println("Screen switched to: " + screen);
             repaint();  
     } else if (key == 52) {
         screen = "character4";
-        player = charList.get(4);
+        player = charList.get(3);
         System.out.println("Screen switched to: " + screen);
         repaint();  
             }

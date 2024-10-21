@@ -19,6 +19,20 @@ public Characters (){
     dy=0;
 pic=new ImageIcon();
 }
+public Characters (int xV, int yV, int width, int height , int sp, int hea, int st,int dam ,ImageIcon p,int w){
+    x=xV;
+    y=yV;
+    w=width;
+    h=height;
+    speed=sp;
+    health=hea;
+    damage=dam;
+    stam=st;
+    pic=p;
+    dx=0;
+    dy=0;
+    weap=weap;
+}
 public Characters (int xV, int yV, int width, int height , int sp, int hea, int st,int dam ,ImageIcon p){
     x=xV;
     y=yV;
