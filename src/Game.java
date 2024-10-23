@@ -153,6 +153,9 @@ case "character1":
     break;
     case "character4":
     drawCharacter4(g2d);
+    break;
+    case "levelselection":
+    drawLevelSelection(g2d);
        }
        
     }
@@ -229,6 +232,26 @@ private void drawCharacter4(Graphics g2d) {
         g2d.drawString("Damage: " + player.getDam(), 100, 250);
 }
 }
+private void drawLevelSelection(Graphics g2d){
+    g2d.setColor(Color.YELLOW);
+    g2d.drawString("Level Selection", 100, 100);
+    g2d.drawString("Press 1 for Level 1", 100, 130);
+    g2d.drawString("Press 2 for Level 2", 100, 160);
+    g2d.drawString("Press 3 for Level 3", 100, 190);
+}
+    
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("RPG Game");
+        frame.setSize(1600, 800);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(new Game());
+        frame.setVisible(true);
+    
+}
+
+
+
 
 
     // DO NOT DELETE
@@ -266,6 +289,12 @@ private void drawCharacter4(Graphics g2d) {
         player = charList.get(3);
         System.out.println("Screen switched to: " + screen);
         repaint();  
+            }else if  (screen.startsWith("character")){
+                if(key==53){
+                    screen="levelselection";
+                    System.out.println("screen switched to: "+screen);
+                    repaint();
+                }
             }
     }
 
