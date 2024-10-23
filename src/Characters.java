@@ -19,7 +19,7 @@ public Characters (){
     dy=0;
 pic=new ImageIcon();
 }
-public Characters (int xV, int yV, int width, int height , int sp, int hea, int st,int dam ,ImageIcon p,int w){
+public Characters (int xV, int yV, int width, int height , int sp, int hea, int st,int dam ,ImageIcon p,weapons weap){
     x=xV;
     y=yV;
     w=width;
@@ -31,7 +31,7 @@ public Characters (int xV, int yV, int width, int height , int sp, int hea, int 
     pic=p;
     dx=0;
     dy=0;
-    weap=weap;
+   this.weap=weap;
 }
 public Characters (int xV, int yV, int width, int height , int sp, int hea, int st,int dam ,ImageIcon p){
     x=xV;

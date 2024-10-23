@@ -7,6 +7,7 @@ public class staff extends weapons{
         this.image=new ImageIcon//(path);
     }
     public staff(int x, int y) {
+        
 this.image=new ImageIcon//(path);
     }
     public String toString(){

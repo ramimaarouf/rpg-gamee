@@ -3,6 +3,8 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.*;
+import java.util.Queue;
+import java.util.LinkedList;
 
 public class Game extends JPanel implements Runnable, KeyListener, MouseListener,
 
@@ -15,6 +17,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
     private ArrayList<Characters> charList;
     public String screen;
     private Characters player;
+    private Queue <Enemy> enemies;
 
     public Game() {
        
@@ -42,7 +45,15 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 
         }
         screen="start";
+        enemies=setEs();
 
+    }
+    public Queue<Enemy> setEs(){
+        Queue<Enemy> temp = new LinkedList<>();
+temp.add (new Alien (100,100));
+temp.add (new Alien (300,100));
+temp.add (new Alien (400,100));
+return temp;
     }
 
     public ArrayList<Characters> setCharList() {
