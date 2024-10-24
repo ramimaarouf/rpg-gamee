@@ -21,8 +21,7 @@ super();
     }
     public void drawWeapon(Graphics2D g, int x, int y){
         if (weapon instanceof gun){
-            Image wepaonImage = ((gun)weapon)
-            g.drawImage(weaponImage.getImage(), x, y, null);
+            g.drawImage(weapon.getImage(), x, y, null);
         }
     }
 }

@@ -3,9 +3,10 @@ import javax.swing.ImageIcon;
 
 public class Characters{
    
-    private int x,y,w,h , speed, health , damage,stam ,dx,dy;
+    public int x,y,w,h , speed, health , damage,stam ,dx,dy;
 private ImageIcon pic;
 private weapons weap;
+private weapons weapon;
 public Characters (){
     x=0;
     y=0;
@@ -118,4 +119,30 @@ public void setDx(int dx){
 public void setDy(int dy){
     this.dy=dy;
 }
+public weapons getWeapon() {
+        return weapon;
 }
+public void setWeapon(weapons weapon) {
+        this.weapon = weapon;
+}
+ public int getDps() {
+        return weapon != null ? weapon.getDps() : 0;
+    }
+
+    public void setDps(int dps) {
+        if (weapon != null) {
+            weapon.setDps(dps);
+        }
+    }
+     public int getDur() {
+        return weapon != null ? weapon.getDurability() : 0;
+    }
+
+    public void setDur(int durability) {
+        if (weapon != null) {
+            weapon.setDurability(durability);
+        }
+    }
+
+    }
+  

@@ -1,5 +1,4 @@
 import java.awt.Graphics2D;
-import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class cory extends Characters {
@@ -19,7 +18,6 @@ public class cory extends Characters {
     }
     public void drawWeapon(Graphics2D g, int x, int y){
         if (weapon instanceof twinblade){
-            Image wepaonImage = ((twinblade)weapon)
-            g.drawImage(weaponImage.getImage(), x, y, null);}
+            g.drawImage(weapon.getImage(), x, y, null);}
         }
     }

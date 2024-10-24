@@ -1,3 +1,6 @@
+
+import javax.swing.ImageIcon;
+
 public class Enemy extends Characters {
     public Enemy(){
         super();
