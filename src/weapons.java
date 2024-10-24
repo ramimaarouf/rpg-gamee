@@ -19,7 +19,7 @@ public int getDam(){
 public void setDamage(int damage) {
         this.dam = damage;
 }
-public int getDur(){
+public int getDurability(){
     return this.duribilty;
 }
  public void setDurability(int durability) {

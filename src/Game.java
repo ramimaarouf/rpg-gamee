@@ -191,7 +191,7 @@ private void drawCharacter1(Graphics g2d) {
          weapons weapon = player.getWeapon();
             if (weapon != null) {
                 g2d.drawString("Weapon Damage: " + weapon.getDam(), 100, 280);
-                g2d.drawString("Weapon Durability: " + weapon.getDur(), 100, 310);
+                g2d.drawString("Weapon Durability: " + weapon.getDurability(), 100, 310);
                 g2d.drawString("Weapon DPS: " + weapon.getDps(), 100, 340);
             }
     }

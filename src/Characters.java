@@ -4,7 +4,7 @@ import javax.swing.ImageIcon;
 public class Characters{
    
     public int x,y,w,h , speed, health , damage,stam ,dx,dy;
-private ImageIcon pic;
+    protected ImageIcon pic;
 private weapons weap;
 private weapons weapon;
 public Characters (){
