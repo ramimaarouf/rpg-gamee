@@ -1,7 +1,4 @@
 public class gun extends weapons{
-    public gun(){
-        super();
-        this.image=new ImageIcon//(path);
 
     }
     public gun(int d, int du, int dp){
