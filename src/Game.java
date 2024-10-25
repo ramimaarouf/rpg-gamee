@@ -188,11 +188,11 @@ private void drawCharacter1(Graphics g2d) {
         g2d.drawString("Speed: " + player.getSp(), 100, 190);
         g2d.drawString("Stamina: " + player.getStam(), 100, 220);
         g2d.drawString("Damage: " + player.getDam(), 100, 250);
-         weapons weapon = player.getWeapon();
-            if (weapon != null) {
-                g2d.drawString("Weapon Damage: " + weapon.getDam(), 100, 280);
-                g2d.drawString("Weapon Durability: " + weapon.getDurability(), 100, 310);
-                g2d.drawString("Weapon DPS: " + weapon.getDps(), 100, 340);
+         weapons weapons = player.getWeapon();
+            if (weapons != null) {
+                g2d.drawString("Weapon Damage: " + weapons.getDam(), 100, 280);
+                g2d.drawString("Weapon Durability: " + weapons.getDurability(), 100, 310);
+                g2d.drawString("Weapon DPS: " + weapons.getDps(), 100, 340);
             }
     }
 }

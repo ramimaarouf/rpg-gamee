@@ -48,7 +48,10 @@ public Characters (int xV, int yV, int width, int height , int sp, int hea, int 
     dy=0;
 }
 public void drawChar (Graphics g2d){
-g2d.drawImage(pic.getImage(), x , y , w, h, null);
+    if (weapon != null) {
+        weapon.drawWeapon(g2d, x + 50, y + 50); 
+    }
+    g2d.drawImage(pic.getImage(), x , y , w, h, null);
 }
 public int getX(){
     return this.x;
@@ -138,11 +141,11 @@ public void setWeapon(weapons weapon) {
         return weapon != null ? weapon.getDurability() : 0;
     }
 
-    public void setDur(int durability) {
-        if (weapon != null) {
-            weapon.setDurability(durability);
+            public void setDur(int durability) {
+            if (weapon != null) {
+                weapon.setDurability(durability);
+            }
         }
-    }
-
+    
     }
   

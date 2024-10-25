@@ -9,7 +9,7 @@ public class rami extends Characters {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     public rami (){
-        this.weapon=new staff(10,20,30);
+        this.weapon=new staff(10,20,30, "path/to/staff/image.png");
 super();
     }
     public rami (int x, int y){
