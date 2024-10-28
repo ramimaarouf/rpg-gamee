@@ -2,9 +2,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import javax.swing.*;
-import java.util.Queue;
 import java.util.LinkedList;
+import java.util.Queue;
+import javax.swing.*;
 
 public class Game extends JPanel implements Runnable, KeyListener, MouseListener,
 
@@ -20,7 +20,9 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
     private Queue <Enemy> enemies;
 
     public Game() {
+
        
+        
         new Thread(this).start();
 
         this.addKeyListener(this);
@@ -59,10 +61,10 @@ return temp;
     public ArrayList<Characters> setCharList() {
         ArrayList<Characters> temp = new ArrayList<Characters>();
 
-    temp.add(new cory(250, 400)); 
-    temp.add(new rami(600, 400)); 
-    temp.add(new bob(950, 400));  
-    temp.add(new jack(1300, 400)); 
+    temp.add(new cory(250, 400,new twinblade(10, 20, 30))); 
+    temp.add(new rami(600, 400, new sword(15, 80, 7)));
+    temp.add(new bob(950, 400, new gun(10, 20, 30)));
+    temp.add(new jack(1300, 400, new staff(10, 20, 30)));
         System.out.println(temp.size());
         return temp;
 

@@ -3,9 +3,10 @@ import javax.swing.ImageIcon;
 
 public class cory extends Characters {
     private weapons weapon;
-
-    public cory() {
+    
+    public cory(int x, int y, twinblade twinblade) {
         this.weapon=new twinblade(10,20,30);
+        
 
         super();
     }

@@ -1,26 +1,24 @@
 import java.awt.Graphics2D;
-import java.awt.Image;
 import javax.swing.ImageIcon;
+
 public class rami extends Characters {
     private weapons weapon;
-
     
-    static Image getImage() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public rami(int x, int y, sword weapon) {
+        this.weapon=new sword(10,20,30);
+        
+
+        super();
     }
-    public rami (){
-        this.weapon=new staff(10,20,30, "path/to/staff/image.png");
-super();
-    }
-    public rami (int x, int y){
-        super(x,y,300,300,300,500,15,1000,new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\rami.png"));
+
+    public rami(int x, int y) {
+        super(x, y, 300, 300, 40, 20, 15, 1000, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\cory.png"));
     }
     public String toString(){
-        return "rami" + super.getHea() + " " + super.getDam() + " " + super.getStam()+" " + super.getSp();
+        return "rami"+ super.getHea() + " " + super.getDam() + " " + super.getStam()+" " + super.getSp();
     }
     public void drawWeapon(Graphics2D g, int x, int y){
-        if (weapon instanceof staff){
-            g.drawImage(weapon.getImage(), x, y, null);
+        if (weapon instanceof twinblade){
+            g.drawImage(weapon.getImage(), x, y, null);}
         }
     }
-}

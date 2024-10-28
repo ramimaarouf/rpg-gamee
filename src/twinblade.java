@@ -3,7 +3,7 @@ public class twinblade extends weapons {
         super(damage, durability, dps, "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images");
 }
 
-public twinblade(int x, int y) {
+public twinblade(int x, int y, int i, String string) {
         super(15, 80, 7, "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images");
     }
 }
