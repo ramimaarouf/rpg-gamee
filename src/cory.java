@@ -4,8 +4,8 @@ import javax.swing.ImageIcon;
 public class cory extends Characters {
     private weapons weapon;
     
-    public cory(int x, int y, twinblade twinblade) {
-        this.weapon=new twinblade(10,20,30);
+    public cory(int x, int y, weapons weap ) {
+        this.weapon=new twinblade(10,20,30, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\twinblade.png"));
         
 
         super();

@@ -20,7 +20,10 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
     private Characters player;
     private Queue <Enemy> enemies;
 
+    private ArrayList<weapons> weaponsList;
+
     public Game() {
+        weaponsList = setWeaponList();
 
        
         
@@ -67,7 +70,16 @@ return temp;
     temp.add(new jack(1300, 400, new staff(10, 20, 30)));
         System.out.println(temp.size());
         return temp;
-
+    }
+public ArrayList<weapons> setWeaponList() {
+        ArrayList<weapons> temp = new ArrayList<weapons>();
+        ArrayList weaponsList = new ArrayList<>();
+        temp.add(new twinblade(10, 20, 30, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\twinblade.png")));
+        temp.add(new sword(15, 80, 7, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\sword.png")));
+        temp.add(new gun(10, 20, 30 , new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\gun.png")));
+        temp.add(new staff(10, 20, 30 , new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\staff.png")));
+    System.out.println(temp.size());
+        return temp;
     }
     
 
@@ -155,6 +167,8 @@ case "character1":
     break;
     case "character4":
     drawCharacter4(g2d);
+    break;
+    case "weaponselection":
     break;
     case "levelselection":
     drawLevelSelection(g2d);
@@ -244,10 +258,21 @@ private void drawLevelSelection(Graphics g2d){
     g2d.setColor(Color.YELLOW);
     g2d.drawString("Level Selection", 100, 100);
     g2d.drawString("Press 1 for Level 1", 100, 130);
-    g2d.drawString("Press 2 for Level 2", 100, 160);
-    g2d.drawString("Press 3 for Level 3", 100, 190);
-}
     
+}
+
+private void drawWeaponSelection(Graphics g2d){
+    g2d.setFont(new Font("Arial", Font.PLAIN, 20));
+    g2d.setColor(Color.YELLOW); // Set the text color to yellow
+    g2d.drawString("Weapon Selection Screen", 100, 100);
+    int yPosition = 150;
+    for (int i = 0; i < weaponsList.size(); i++) {
+        weapons weapon = weaponsList.get(i);
+g2d.drawImage(weapon.getImage(), 100, yPosition, null);
+g2d.drawString("Press " + (i + 1) + " to select " + weapon.getClass().getSimpleName(), 200, yPosition + 50);
+        yPosition += 100;
+    }
+}
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("RPG Game");

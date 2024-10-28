@@ -9,6 +9,13 @@
             "name": "Game",
             "request": "launch",
             "mainClass": "Game",
+            "projectName": "rpg-gamee_b2aab77b"
+        },
+        {
+            "type": "java",
+            "name": "Game",
+            "request": "launch",
+            "mainClass": "Game",
             "projectName": "rpg-gamee_fa12c70"
         },
         {
