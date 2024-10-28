@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import javax.swing.*;
@@ -41,10 +42,9 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
         System.out.println(charList.size());
     
 
-        for (Characters c : charList) {
-
+        for (Iterator<Characters> it = charList.iterator(); it.hasNext();) {
+            Characters c = it.next();
             System.out.println(c);
-
         }
         screen="start";
         enemies=setEs();
