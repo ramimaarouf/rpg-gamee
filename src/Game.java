@@ -13,7 +13,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 
     private BufferedImage back;
     private boolean alienStatsPrinted = false;
-
+    private Background background;
     private int key, x, y;
 
     private ArrayList<Characters> charList;
@@ -24,6 +24,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
     private ArrayList<weapons> weaponsList;
 
     public Game() {
+        background = new Background("path/to/background/planett.png");
         weaponsList = setWeaponList();
 
        
@@ -166,7 +167,8 @@ if ("character1".equals(screen)) {
         drawGunScreen(g2d);
     } else if ("staff".equals(screen)) {
         drawStaffScreen(g2d);
-        
+    }else if ("levelselection".equals(screen)) {
+        drawLevelSelection(g2d);
     } else {
         g2d.drawString("Hello, Select a character!", 300, 300);
     }
@@ -211,7 +213,9 @@ private void drawScreens(Graphics g2d) {
     } else if ("staff".equals(screen)) {
         drawStaffScreen(g2d);
         return;
-    } else {
+    } else if ("levelselection".equals(screen)) {
+        return;
+    }
         g2d.drawString("Hello, Select a character!", 300, 300);
     }
 }
@@ -345,6 +349,7 @@ private void swingSword() {
     System.out.println("Swinging the sword!");
 }
 private void drawLevelSelection(Graphics g2d) {
+    background.draw(g2d, getWidth(), getHeight());
     g2d.setColor(Color.YELLOW);
     g2d.drawString("Level Selection", 100, 100);
     g2d.drawString("Press 1 for Level 1", 100, 130);
