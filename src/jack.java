@@ -12,7 +12,7 @@ public class jack extends Characters {
     }
 
     public jack(int x, int y) {
-        super(x, y, 300, 300, 40, 20, 15, 1000, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\cory.png"));
+        super(x, y, 300, 300, 400, 200, 150, 60, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\jack.png"));
     }
     public String toString(){
         return "jack"+ super.getHea() + " " + super.getDam() + " " + super.getStam()+" " + super.getSp();

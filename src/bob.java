@@ -12,7 +12,7 @@ public class bob extends Characters {
     }
 
     public bob(int x, int y) {
-        super(x, y, 300, 300, 40, 20, 15, 1000, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\cory.png"));
+        super(x, y, 300, 300, 200, 100, 150, 100, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\bob.png"));
     }
     public String toString(){
         return "bob"+ super.getHea() + " " + super.getDam() + " " + super.getStam()+" " + super.getSp();

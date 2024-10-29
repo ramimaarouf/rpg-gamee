@@ -12,6 +12,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
         MouseMotionListener {
 
     private BufferedImage back;
+    private boolean alienStatsPrinted = false;
 
     private int key, x, y;
 
@@ -64,10 +65,10 @@ return temp;
     public ArrayList<Characters> setCharList() {
         ArrayList<Characters> temp = new ArrayList<Characters>();
 
-    temp.add(new cory(250, 400,new twinblade(10, 20, 30))); 
-    temp.add(new rami(600, 400, new sword(15, 80, 7)));
-    temp.add(new bob(950, 400, new gun(10, 20, 30)));
-    temp.add(new jack(1300, 400, new staff(10, 20, 30)));
+    temp.add(new cory(250, 400)); 
+    temp.add(new rami(600, 400));
+    temp.add(new bob(950, 400));
+    temp.add(new jack(1300, 400));
         System.out.println(temp.size());
         return temp;
     }
@@ -76,7 +77,7 @@ public ArrayList<weapons> setWeaponList() {
         ArrayList weaponsList = new ArrayList<>();
         temp.add(new twinblade(10, 20, 30, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\twinblade.png")));
         temp.add(new sword(15, 80, 7, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\sword.png")));
-        temp.add(new gun(10, 20, 30 , new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\gun.png")));
+        temp.add(new gun(10, 20, 30));
         temp.add(new staff(10, 20, 30 , new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\staff.png")));
     System.out.println(temp.size());
         return temp;
@@ -105,6 +106,7 @@ public ArrayList<weapons> setWeaponList() {
 
         g2d.setFont(new Font("Broadway", Font.BOLD, 50));
         g2d.setColor(Color.WHITE); 
+        
 if ("character1".equals(screen)) {
     g2d.setColor(Color.YELLOW); 
     g2d.drawString("Character Name: Cory", 100, 110);        
@@ -113,7 +115,7 @@ if ("character1".equals(screen)) {
         g2d.drawString("Stamina: " + player.getStam(), 100, 260);
         g2d.drawString("Damage: " + player.getDam(), 100, 310);
     } else if ("character2".equals(screen)) {
-        g2d.setColor(Color.YELLOW);
+      g2d.setColor(Color.YELLOW); 
         g2d.drawString("Character Name: Rami", 100, 110);
         g2d.drawString("Health: " + player.getHea(), 100, 160);
         g2d.drawString("Speed: " + player.getSp(), 100, 210);
@@ -133,49 +135,86 @@ if ("character1".equals(screen)) {
             g2d.drawString("Speed: " + player.getSp(), 100, 210);
             g2d.drawString("Stamina: " + player.getStam(), 100, 260);
             g2d.drawString("Damage: " + player.getDam(), 100, 310);
+ }else if("weaponselection".equals(screen)){
+        g2d.setColor(Color.GREEN);
+        g2d.drawString("Weapon Selection", 100, 100);
+        g2d.drawString("Press 5 for Twinblade", 100, 300);
+        g2d.drawString("Press 6 for Sword", 800, 300);
+        g2d.drawString("Press 7 for Gun", 800, 240);
+        g2d.drawString("Press 8 for Staff", 100, 240);
+        int[][] weaponPositions = {
+            {100, 350}, 
+            {300, 350}, 
+            {500, 350}, 
+            {700, 350}  
+        };
+    
+        int weaponWidth = 100; 
+        int weaponHeight = 100; 
+    
+        for (int i = 0; i < weaponsList.size(); i++) {
+            weapons weapon = weaponsList.get(i);
+            int x = weaponPositions[i][0];
+            int y = weaponPositions[i][1];
+            g2d.drawImage(weapon.getImage(), x, y, weaponWidth, weaponHeight, null);
+        }
+    } else if ("twinblade".equals(screen)) {
+        drawTwinbladeScreen(g2d);
+    } else if ("sword".equals(screen)) {
+        drawSwordScreen(g2d);
+    } else if ("gun".equals(screen)) {
+        drawGunScreen(g2d);
+    } else if ("staff".equals(screen)) {
+        drawStaffScreen(g2d);
+        
     } else {
         g2d.drawString("Hello, Select a character!", 300, 300);
     }
+    if (!"weaponselection".equals(screen)) {
     for (Characters c : charList) {
         c.drawChar(g2d);  
     }
+}
+for (Enemy alien : enemies) {
+    printAlienStats(alien);
+}
+alienStatsPrinted = true;
+    
     twoDgraph.drawImage(back, null, 0, 0);
     drawScreens(g2d);
+    
+    }
 
-}
     
 
 
-    private void drawScreens(Graphics g2d) {
-        // TODO Auto-generated method stub
-       switch(screen){
-        case "start":
-        drawStartScreen(g2d);
-          break;
-        case "selection":
-        drawSelectScreen(g2d);
-break;
-
-case "character1":
-    drawCharacter1(g2d);
-    break;
-    case "character2":
-    drawCharacter2(g2d);
-    break;
-    case "character3":
-    drawCharacter3(g2d);
-    break;
-    case "character4":
-    drawCharacter4(g2d);
-    break;
-    case "weaponselection":
-    break;
-    case "levelselection":
-    drawLevelSelection(g2d);
-       }
-       
+private void drawScreens(Graphics g2d) {
+    if ("character1".equals(screen)) {
+        drawCharacter1(g2d);
+    } else if ("character2".equals(screen)) {
+        drawCharacter2(g2d);
+    } else if ("character3".equals(screen)) {
+        drawCharacter3(g2d);
+    } else if ("character4".equals(screen)) {
+        drawCharacter4(g2d);
+    } else if ("weaponselection".equals(screen)) {
+        drawWeaponSelectionScreen(g2d);
+    } else if ("twinblade".equals(screen)) {
+        drawTwinbladeScreen(g2d);
+        return;
+    } else if ("sword".equals(screen)) {
+        drawSwordScreen(g2d);
+        return;
+    } else if ("gun".equals(screen)) {
+        drawGunScreen(g2d);
+        return;
+    } else if ("staff".equals(screen)) {
+        drawStaffScreen(g2d);
+        return;
+    } else {
+        g2d.drawString("Hello, Select a character!", 300, 300);
     }
-
+}
     private void drawSelectScreen(Graphics g2d) {
         player.drawChar(g2d);
       g2d.drawString("You picked"+player.toString(),200,500 );
@@ -196,7 +235,7 @@ private void drawCharacter1(Graphics g2d) {
     if (player != null) {
         player.drawChar(g2d);
         g2d.setFont(new Font("Arial", Font.PLAIN, 20));
-        g2d.setColor(Color.YELLOW); // Set the text color to yellow
+        g2d.setColor(Color.YELLOW); 
         g2d.drawString("Character 1 Screen", 100, 100);
         g2d.drawString("Character Name: " + player.toString(), 100, 130);
         g2d.drawString("Character Name: " + player.toString(), 100, 130);
@@ -230,7 +269,7 @@ private void drawCharacter3(Graphics g2d) {
     if (player != null) {
         player.drawChar(g2d);
         g2d.setFont(new Font("Arial", Font.PLAIN, 20));
-        g2d.setColor(Color.YELLOW); // Set the text color to yellow
+        g2d.setColor(Color.YELLOW); 
         g2d.drawString("Character 3 Screen", 100, 100);
         g2d.drawString("Character Name: " + player.toString(), 100, 130);
         g2d.drawString("Character Name: " + player.toString(), 100, 130);
@@ -252,36 +291,74 @@ private void drawCharacter4(Graphics g2d) {
         g2d.drawString("Speed: " + player.getSp(), 100, 190);
         g2d.drawString("Stamina: " + player.getStam(), 100, 220);
         g2d.drawString("Damage: " + player.getDam(), 100, 250);
-}
-}
-private void drawLevelSelection(Graphics g2d){
-    g2d.setColor(Color.YELLOW);
-    g2d.drawString("Level Selection", 100, 100);
-    g2d.drawString("Press 1 for Level 1", 100, 130);
-    
-}
-
-private void drawWeaponSelection(Graphics g2d){
-    g2d.setFont(new Font("Arial", Font.PLAIN, 20));
-    g2d.setColor(Color.YELLOW); // Set the text color to yellow
-    g2d.drawString("Weapon Selection Screen", 100, 100);
-    int yPosition = 150;
-    for (int i = 0; i < weaponsList.size(); i++) {
-        weapons weapon = weaponsList.get(i);
-g2d.drawImage(weapon.getImage(), 100, yPosition, null);
-g2d.drawString("Press " + (i + 1) + " to select " + weapon.getClass().getSimpleName(), 200, yPosition + 50);
-        yPosition += 100;
     }
 }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("RPG Game");
-        frame.setSize(1600, 800);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(new Game());
-        frame.setVisible(true);
-    
+private void drawWeaponSelectionScreen(Graphics g2d) {
+    g2d.setFont(new Font("Arial", Font.BOLD, 50));
+    g2d.setColor(Color.YELLOW);
+    g2d.drawString("Pick your weapon", 100, 100);
 }
+private void drawTwinbladeScreen(Graphics g2d) {
+    weapons twinblade = weaponsList.get(0); 
+    g2d.setColor(Color.YELLOW);
+    g2d.drawImage(twinblade.getImage(), 100, 100, 100, 100, null);
+    g2d.drawString("Twinblade Info:", 100, 300);
+    g2d.drawString("Damage: " + twinblade.getDam(), 100, 330);
+    g2d.drawString("Durability: " + twinblade.getDurability(), 100, 360);
+    g2d.drawString("DPS: " + twinblade.getDps(), 100, 390);
+}
+private void drawSwordScreen(Graphics g2d) {
+    weapons sword = weaponsList.get(1); 
+    g2d.setColor(Color.YELLOW);
+    g2d.drawImage(sword.getImage(), 100, 100, 100, 100, null);
+    g2d.drawString("Sword Info:", 100, 300);
+    g2d.drawString("Damage: " + sword.getDam(), 100, 330);
+    g2d.drawString("Durability: " + sword.getDurability(), 100, 360);
+    g2d.drawString("DPS: " + sword.getDps(), 100, 390);
+}
+private void drawGunScreen(Graphics g2d) {
+    weapons gun = weaponsList.get(2);
+    g2d.setColor(Color.YELLOW);
+    g2d.drawImage(gun.getImage(), 100, 100, 100, 100, null);
+    g2d.drawString("Gun Info:", 100, 300);
+    g2d.drawString("Damage: " + gun.getDam(), 100, 330);
+    g2d.drawString("Durability: " + gun.getDurability(), 100, 360);
+    g2d.drawString("DPS: " + gun.getDps(), 100, 390);
+}
+private void drawStaffScreen(Graphics g2d) {
+    weapons staff = weaponsList.get(3); 
+    g2d.setColor(Color.YELLOW);
+    g2d.drawImage(staff.getImage(), 100, 100, 100, 100, null);
+    g2d.drawString("Staff Info:", 100, 300);
+    g2d.drawString("Damage: " + staff.getDam(), 100, 330);
+    g2d.drawString("Durability: " + staff.getDurability(), 100, 360);
+    g2d.drawString("DPS: " + staff.getDps(), 100, 390);
+}
+private void printAlienStats(Enemy alien) {
+    System.out.println("Alien Stats:");
+    System.out.println("Health: " + alien.getHealth());
+    System.out.println("Speed: " + alien.getSpeed());
+    System.out.println("Damage: " + alien.getDamage());
+}
+private void swingSword() {
+    System.out.println("Swinging the sword!");
+}
+private void drawLevelSelection(Graphics g2d) {
+    g2d.setColor(Color.YELLOW);
+    g2d.drawString("Level Selection", 100, 100);
+    g2d.drawString("Press 1 for Level 1", 100, 130);
+
+}
+
+public static void main(String[] args) {
+    JFrame frame = new JFrame("RPG Game");
+    frame.setSize(1600, 800);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setContentPane(new Game());
+    frame.setVisible(true);
+}
+
 
 
 
@@ -297,39 +374,56 @@ g2d.drawString("Press " + (i + 1) + " to select " + weapon.getClass().getSimpleN
     // DO NOT DELETE
     @Override
     public void keyPressed(KeyEvent e) {
-        // TODO Auto-generated method stub
         key = e.getKeyCode();
-        System.out.println("Key pressed: " + key);
-
         System.out.println(key);
-        if (key == 49) { 
+        if (key == 49) {
             screen = "character1";
             player = charList.get(0);
             System.out.println("Screen switched to: " + screen);
-            repaint();  
+            repaint();
         } else if (key == 50) {
             screen = "character2";
             player = charList.get(1);
             System.out.println("Screen switched to: " + screen);
-            repaint();  
+            repaint();
         } else if (key == 51) {
             screen = "character3";
             player = charList.get(2);
             System.out.println("Screen switched to: " + screen);
-            repaint();  
-    } else if (key == 52) {
-        screen = "character4";
-        player = charList.get(3);
-        System.out.println("Screen switched to: " + screen);
-        repaint();  
-            }else if  (screen.startsWith("character")){
-                if(key==53){
-                    screen="levelselection";
-                    System.out.println("screen switched to: "+screen);
-                    repaint();
-                }
-            }
+            repaint();
+        } else if (key == 52) {
+            screen = "character4";
+            player = charList.get(3);
+            System.out.println("Screen switched to: " + screen);
+            repaint();
+        } else if (screen.startsWith("character") && key == KeyEvent.VK_0) {
+            screen = "weaponselection";
+            System.out.println("Screen switched to: " + screen);
+            repaint();
+        }else if (key == 53) {
+            screen = "twinblade";
+            System.out.println("Screen switched to: " + screen);
+            repaint();
+        } else if (key == 54) {
+            screen = "sword";
+            System.out.println("Screen switched to: " + screen);
+            repaint();
+        } else if (key == 55) {
+            screen = "gun";
+            System.out.println("Screen switched to: " + screen);
+            repaint();
+        } else if (key == 56) {
+            screen = "staff";
+            System.out.println("Screen switched to: " + screen);
+            repaint();
+        }   else if (key == KeyEvent.VK_F) {
+            swingSword();
+        }
     }
+    
+        
+    
+        
 
     
 

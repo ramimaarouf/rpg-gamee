@@ -15,34 +15,34 @@ public class weapons {
         this.image = new ImageIcon(imagePath).getImage();
     }
 
-    public int getDamage() {
-        return damage;
-    }
-    
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
-    
-    public int getDurability() {
-        return durability;
-    }
-    
-    public void setDurability(int durability) {
-        this.durability = durability;
-    }
-    
-    public int getDps() {
-        return dps;
-    }
-    
-    public void setDps(int dps) {
-        this.dps = dps;
-    }
-    
     public Image getImage() {
         return image;
     }
-    
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public int getDurability() {
+        return durability;
+    }
+
+    public void setDurability(int durability) {
+        this.durability = durability;
+    }
+
+    public int getDps() {
+        return dps;
+    }
+
+    public void setDps(int dps) {
+        this.dps = dps;
+    }
+
     public void drawWeapon(Graphics g, int x, int y) {
         if (image != null) {
             g.drawImage(image, x, y, null);
@@ -52,7 +52,8 @@ public class weapons {
         g.drawString("DPS: " + dps, x, y + 60);
     }
 
-    String getDam() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    // Correctly implemented getDam method
+    public int getDam() {
+        return damage;
     }
 }

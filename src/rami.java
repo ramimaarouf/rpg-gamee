@@ -12,7 +12,7 @@ public class rami extends Characters {
     }
 
     public rami(int x, int y) {
-        super(x, y, 300, 300, 40, 20, 15, 1000, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\cory.png"));
+        super(x, y, 300, 300, 4000, 2000, 1500, 1000, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\rami.png"));
     }
     public String toString(){
         return "rami"+ super.getHea() + " " + super.getDam() + " " + super.getStam()+" " + super.getSp();
