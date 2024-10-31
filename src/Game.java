@@ -24,7 +24,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
     private ArrayList<weapons> weaponsList;
     
     public Game() {
-        background = new Background("C:\\Users\\Demon\\Desktop\\rpg-gamee\\images\\planett.png");
+background= new Background();
         weaponsList = setWeaponList();
 
        

@@ -4,6 +4,11 @@ import javax.swing.ImageIcon;
 public class Background {
     private ImageIcon backgroundImage;
 
+  
+    public Background() {
+        this.backgroundImage = new ImageIcon(":\\Users\\\\Demon\\Desktop\\rpg-gamee\\images\\planett.png");
+    }
+
     public Background(String imagePath) {
         this.backgroundImage = new ImageIcon(imagePath);
     }
