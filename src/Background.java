@@ -1,5 +1,5 @@
-import javax.swing.ImageIcon;
 import java.awt.Graphics;
+import javax.swing.ImageIcon;
 
 public class Background {
     private ImageIcon backgroundImage;

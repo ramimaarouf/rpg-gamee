@@ -17,14 +17,14 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
     private int key, x, y;
 
     private ArrayList<Characters> charList;
-    public String screen;
+    private String screen="levelselection";
     private Characters player;
     private Queue <Enemy> enemies;
 
     private ArrayList<weapons> weaponsList;
-
+    
     public Game() {
-        background = new Background("path/to/background/planett.png");
+        background = new Background("C:\\Users\\Demon\\Desktop\\rpg-gamee\\images\\planett.png");
         weaponsList = setWeaponList();
 
        
@@ -102,6 +102,7 @@ public ArrayList<weapons> setWeaponList() {
             back = (BufferedImage) ((createImage(getWidth(), getHeight())));
 
         Graphics g2d = back.createGraphics();
+        background.draw(g2d, getWidth(), getHeight());
 
         g2d.clearRect(0, 0, getSize().width, getSize().height);
 
@@ -177,10 +178,8 @@ if ("character1".equals(screen)) {
         c.drawChar(g2d);  
     }
 }
-for (Enemy alien : enemies) {
-    printAlienStats(alien);
-}
-alienStatsPrinted = true;
+
+
     
     twoDgraph.drawImage(back, null, 0, 0);
     drawScreens(g2d);
@@ -188,7 +187,9 @@ alienStatsPrinted = true;
     }
 
     
-
+    private void drawBackground(Graphics g2d) {
+        background.draw(g2d, getWidth(), getHeight());
+    }
 
 private void drawScreens(Graphics g2d) {
     if ("character1".equals(screen)) {
@@ -214,11 +215,12 @@ private void drawScreens(Graphics g2d) {
         drawStaffScreen(g2d);
         return;
     } else if ("levelselection".equals(screen)) {
-        return;
-    }
-        g2d.drawString("Hello, Select a character!", 300, 300);
+        drawLevelSelection(g2d);
+    }else{
+    g2d.drawString("Hello, Select a character!", 300, 300);
     }
 }
+
     private void drawSelectScreen(Graphics g2d) {
         player.drawChar(g2d);
       g2d.drawString("You picked"+player.toString(),200,500 );
@@ -352,7 +354,7 @@ private void drawLevelSelection(Graphics g2d) {
     background.draw(g2d, getWidth(), getHeight());
     g2d.setColor(Color.YELLOW);
     g2d.drawString("Level Selection", 100, 100);
-    g2d.drawString("Press 1 for Level 1", 100, 130);
+    g2d.drawString("Press x for Level 1", 100, 130);
 
 }
 
@@ -423,6 +425,10 @@ public static void main(String[] args) {
             repaint();
         }   else if (key == KeyEvent.VK_F) {
             swingSword();
+        }else if (key == KeyEvent.VK_X) {
+            screen = "levelselction";
+            System.out.println("Screen switched to: " + screen);
+            repaint();
         }
     }
     
