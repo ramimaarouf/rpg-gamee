@@ -4,17 +4,17 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Xylaris extends Planets implements KeyListener {
+public class Pyroflora extends Planets implements KeyListener {
     private BufferedImage back;
-    private String screen = "Planet1"; 
+    private String screen = "Planet2"; 
     private Xylaris xylaris;
     private Characters player;
     private ArrayList<Characters> charList;
     private ArrayList<Enemy> enemies;
     private boolean alienStatsPrinted = false;
 
-    public Xylaris (){
-    ImageIcon backgroundImage = new ImageIcon("path/to/xylaris/background/image.png");
+    public Pyroflora (){
+    ImageIcon backgroundImage = new ImageIcon("path/to/pyroflora/background/image.png");
     this.charList=new ArrayList<>();
     this.enemies=new ArrayList<>();
   

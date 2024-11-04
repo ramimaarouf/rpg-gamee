@@ -1,4 +1,6 @@
 
+import java.awt.Graphics;
+
 import javax.swing.ImageIcon;
 
 public class Enemy extends Characters {
@@ -142,6 +144,10 @@ public class Enemy extends Characters {
 
     public void setWeapon(weapons weap) {
         this.weapons = weap;
+    }
+    public void draw(Graphics g2d) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'draw'");
     }
 }
 

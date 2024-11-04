@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -22,6 +23,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
     private Queue <Enemy> enemies;
 
     private ArrayList<weapons> weaponsList;
+    private ArrayList<Planets> planetList;
     
     public Game() {
 background= new Background();
@@ -83,8 +85,14 @@ public ArrayList<weapons> setWeaponList() {
     System.out.println(temp.size());
         return temp;
     }
-    
-
+    public ArrayList<Planets> setPlanetList() {
+        ArrayList<Planets> temp = new ArrayList<Planets>();
+        ArrayList planetList = new ArrayList<>();
+        temp.add(new Pyroflora());
+        temp.add(new Xylaris());
+        return temp;
+    }
+        
     public void run() {
         try {
             while (true) {
@@ -171,12 +179,14 @@ if ("character1".equals(screen)) {
     }else if ("levelselection".equals(screen)) {
         drawLevelSelection(g2d);
     } else {
+        
         g2d.drawString("Hello, Select a character!", 300, 300);
     }
     if (!"weaponselection".equals(screen)) {
     for (Characters c : charList) {
         c.drawChar(g2d);  
     }
+    
 }
 
 
@@ -213,17 +223,27 @@ private void drawScreens(Graphics g2d) {
         return;
     } else if ("staff".equals(screen)) {
         drawStaffScreen(g2d);
-        return;
-    } else if ("levelselection".equals(screen)) {
-        drawLevelSelection(g2d);
-    }else{
-    g2d.drawString("Hello, Select a character!", 300, 300);
-    }
-}
-
-    private void drawSelectScreen(Graphics g2d) {
+                return;
+            }else if (screen.equals("levelselection")) {
+                drawLevelSelection(g2d);
+            }  if (screen.equals("xylaris")) {
+                drawXylarisScreen(g2d);
+            } else {
+                
+                g2d.drawString("Hello, Select a character!", 300, 300);
+            }
+        }
+        
+            private void drawSelectScreen(Graphics g2d) {
         player.drawChar(g2d);
       g2d.drawString("You picked"+player.toString(),200,500 );
+
+            }
+            private void drawPlanets(Graphics g2d) {
+                for (Planets planet : planetList) {
+                    planet.draw(g2d);
+                }
+            
 
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'drawSelectScreen'");
@@ -358,6 +378,16 @@ private void drawLevelSelection(Graphics g2d) {
 
 }
 
+private void drawXylarisScreen (Graphics g2d) {
+        background.draw(g2d, getWidth(), getHeight());
+     if (player != null) {
+            player.drawChar(g2d);
+        }
+     for (Enemy enemy : enemies) {
+            enemy.draw(g2d);
+        }
+    }
+
 public static void main(String[] args) {
     JFrame frame = new JFrame("RPG Game");
     frame.setSize(1600, 800);
@@ -426,11 +456,20 @@ public static void main(String[] args) {
         }   else if (key == KeyEvent.VK_F) {
             swingSword();
         }else if (key == KeyEvent.VK_X) {
-            screen = "levelselction";
+            screen = "levelselection";
             System.out.println("Screen switched to: " + screen);
             repaint();
         }
+        if (screen.equals("levelselection")) {
+            if (key == KeyEvent.VK_C) {
+                System.out.println("Selected Level 1: Xylaris");
+                screen = "xylaris"; 
+                System.out.println("Screen switched to: " + screen);
+                repaint();
+            }
+        }
     }
+    
     
         
     
