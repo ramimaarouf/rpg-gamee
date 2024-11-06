@@ -424,15 +424,17 @@ private void drawXylarisScreen(Graphics g2d) {
             int weaponX = player.getX() + 50; // Offset weapon to right of character
             int weaponY = player.getY();
             g2d.drawImage(playerWeapon.getImage(), weaponX, weaponY, 50, 50, null);
+        }
+    }
 
     // Draw enemies one at a time
     if (!enemies.isEmpty()) {
         Enemy currentEnemy = enemies.peek();
         currentEnemy.draw(g2d);
-            }
+    }
 }
-} 
-}   
+
+
     
     private void drawPyrofloraScreen(Graphics g2d) {
         drawPyrofloraBackground(g2d);
