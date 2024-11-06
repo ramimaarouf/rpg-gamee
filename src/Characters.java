@@ -146,6 +146,10 @@ public void setWeapon(weapons weapon) {
                 weapon.setDurability(durability);
             }
         }
+
+    Object getImage() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
     }
   

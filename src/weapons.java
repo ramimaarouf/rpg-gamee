@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
@@ -55,5 +56,27 @@ public class weapons {
     // Correctly implemented getDam method
     public int getDam() {
         return damage;
+    }
+
+    void draw(Graphics2D g2d, int x, int y) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public int getWidth() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getWidth'");
+    }
+
+    public int getHeight() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getHeight'");
+    }
+
+    int getX() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    int getY() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

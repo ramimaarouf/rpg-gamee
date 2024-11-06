@@ -3,6 +3,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -16,17 +17,25 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
     private boolean alienStatsPrinted = false;
     private Background background;
     private int key, x, y;
+    private Background xylarisBackground;
+    private Background pyrofloraBackground;
+    private boolean gameOver = false;
+private int playerScore = 0;
 
     private ArrayList<Characters> charList;
     private String screen="levelselection";
     private Characters player;
     private Queue <Enemy> enemies;
+    private boolean characterSelected = false;
+    private Planets selectedPlanet;
 
     private ArrayList<weapons> weaponsList;
     private ArrayList<Planets> planetList;
     
     public Game() {
-background= new Background();
+background= new Background("C:\\Users\\Demon\\Desktop\\rpg-gamee\\images\\planett.png");
+xylarisBackground = new Background("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\xxxxx.png");
+pyrofloraBackground = new Background("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\ccc.png");
         weaponsList = setWeaponList();
 
        
@@ -86,10 +95,10 @@ public ArrayList<weapons> setWeaponList() {
         return temp;
     }
     public ArrayList<Planets> setPlanetList() {
-        ArrayList<Planets> temp = new ArrayList<Planets>();
-        ArrayList planetList = new ArrayList<>();
-        temp.add(new Pyroflora());
-        temp.add(new Xylaris());
+        ArrayList<Planets> temp = new ArrayList<>();
+        temp.add(new Xylaris("Xylaris", "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\xxxxx.png"));
+        temp.add(new Pyroflora("Pyroflora", "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\ccc.png"));
+        System.out.println(temp.size());
         return temp;
     }
         
@@ -178,12 +187,16 @@ if ("character1".equals(screen)) {
         drawStaffScreen(g2d);
     }else if ("levelselection".equals(screen)) {
         drawLevelSelection(g2d);
-    } else {
-        
-        g2d.drawString("Hello, Select a character!", 300, 300);
+    } else if ("XylarisScreen".equals(screen)) {
+        drawXylarisScreen(g2d);
+    } else if ("PyrofloraScreen".equals(screen)) {
+        drawPyrofloraScreen(g2d);
     }
+
+     if (!"levelselection".equals(screen) && !characterSelected)
     if (!"weaponselection".equals(screen)) {
     for (Characters c : charList) {
+        
         c.drawChar(g2d);  
     }
     
@@ -200,9 +213,15 @@ if ("character1".equals(screen)) {
     private void drawBackground(Graphics g2d) {
         background.draw(g2d, getWidth(), getHeight());
     }
-
+    private void drawXylarisBackground(Graphics g2d) {
+        xylarisBackground.draw(g2d, getWidth(), getHeight());
+    }
+    
+    private void drawPyrofloraBackground(Graphics g2d) {
+        pyrofloraBackground.draw(g2d, getWidth(), getHeight());
+    }
 private void drawScreens(Graphics g2d) {
-    if ("character1".equals(screen)) {
+     if ("character1".equals(screen)) {
         drawCharacter1(g2d);
     } else if ("character2".equals(screen)) {
         drawCharacter2(g2d);
@@ -226,11 +245,10 @@ private void drawScreens(Graphics g2d) {
                 return;
             }else if (screen.equals("levelselection")) {
                 drawLevelSelection(g2d);
-            }  if (screen.equals("xylaris")) {
+            } else if ("XylarisScreen".equals(screen)) {
                 drawXylarisScreen(g2d);
-            } else {
-                
-                g2d.drawString("Hello, Select a character!", 300, 300);
+            } else if ("PyrofloraScreen".equals(screen)) {
+                drawPyrofloraScreen(g2d);
             }
         }
         
@@ -240,9 +258,7 @@ private void drawScreens(Graphics g2d) {
 
             }
             private void drawPlanets(Graphics g2d) {
-                for (Planets planet : planetList) {
-                    planet.draw(g2d);
-                }
+                
             
 
         // TODO Auto-generated method stub
@@ -374,20 +390,27 @@ private void drawLevelSelection(Graphics g2d) {
     background.draw(g2d, getWidth(), getHeight());
     g2d.setColor(Color.YELLOW);
     g2d.drawString("Level Selection", 100, 100);
-    g2d.drawString("Press x for Level 1", 100, 130);
-
+    g2d.setFont(new Font("Arial", Font.BOLD, 30)); 
+    g2d.drawString("Select Your Planet:", 100, 100);
+    g2d.drawString(" 'space' Xylaris - The Crystal World", 100, 200);
+    g2d.drawString(" 'c'  Pyroflora - The Burning Planet", 100, 250);
 }
 
-private void drawXylarisScreen (Graphics g2d) {
-        background.draw(g2d, getWidth(), getHeight());
-     if (player != null) {
-            player.drawChar(g2d);
-        }
-     for (Enemy enemy : enemies) {
-            enemy.draw(g2d);
-        }
+private void drawXylarisScreen(Graphics g2d) {
+    drawXylarisBackground(g2d);
+    g2d.setColor(Color.YELLOW);
+    g2d.setFont(new Font("Arial", Font.BOLD, 30));
+    
+            }
+        
+    
+    
+    
+    private void drawPyrofloraScreen(Graphics g2d) {
+        drawPyrofloraBackground(g2d);
+        g2d.setColor(Color.YELLOW);
+        g2d.setFont(new Font("Arial", Font.BOLD, 30));
     }
-
 public static void main(String[] args) {
     JFrame frame = new JFrame("RPG Game");
     frame.setSize(1600, 800);
@@ -416,21 +439,27 @@ public static void main(String[] args) {
         if (key == 49) {
             screen = "character1";
             player = charList.get(0);
-            System.out.println("Screen switched to: " + screen);
+            characterSelected = true;
+ System.out.println("Screen switched to: " + screen);
             repaint();
         } else if (key == 50) {
             screen = "character2";
             player = charList.get(1);
-            System.out.println("Screen switched to: " + screen);
+            characterSelected = true;
+System.out.println("Screen switched to: " + screen);
             repaint();
         } else if (key == 51) {
             screen = "character3";
             player = charList.get(2);
+            characterSelected = true;
+
             System.out.println("Screen switched to: " + screen);
             repaint();
         } else if (key == 52) {
             screen = "character4";
             player = charList.get(3);
+            characterSelected = true;
+
             System.out.println("Screen switched to: " + screen);
             repaint();
         } else if (screen.startsWith("character") && key == KeyEvent.VK_0) {
@@ -459,16 +488,18 @@ public static void main(String[] args) {
             screen = "levelselection";
             System.out.println("Screen switched to: " + screen);
             repaint();
+        } else if (key == KeyEvent.VK_SPACE) {
+            screen = "XylarisScreen";
+            System.out.println("Screen switched to: " + screen);
+            repaint();
         }
-        if (screen.equals("levelselection")) {
-            if (key == KeyEvent.VK_C) {
-                System.out.println("Selected Level 1: Xylaris");
-                screen = "xylaris"; 
-                System.out.println("Screen switched to: " + screen);
-                repaint();
+        else if (key == KeyEvent.VK_C) {
+            screen = "PyrofloraScreen";
+            System.out.println("Screen switched to: " + screen);
+            repaint();
             }
-        }
     }
+    
     
     
         

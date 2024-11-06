@@ -1,26 +1,20 @@
-import java.awt.Graphics;
+import java.awt.*;
+import javax.swing.*;
 
 public class Planets {
-    private Pyroflora pyroflora;
-    private Xylaris xylaris;
+    private String name;
+    private String imagePath;
+    private ImageIcon backgroundImage;
 
-    public Planets() {
-        this.pyroflora = new Pyroflora();
-        this.xylaris = new Xylaris();
+    public Planets(String name, String imagePath) {
+        this.name = name;
+        this.imagePath = imagePath;
+        this.backgroundImage = new ImageIcon(imagePath);
     }
 
-    public void pyrofloraMethod() {
-        pyroflora.pyrofloraMethod();
+    public void drawBackground(Graphics g, int width, int height) {
+        g.drawImage(backgroundImage.getImage(), 0, 0, width, height, null);
     }
 
-    public void xylarisMethod() {
-        xylaris.xylarisMethod();
-    }
-
-    public void draw(Graphics g2d) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'draw'");
-    }
-
-    // Other methods and logic for the Planets class
+    // Getters and setters if needed
 }

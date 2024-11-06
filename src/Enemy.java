@@ -1,21 +1,22 @@
-
 import java.awt.Graphics;
-
+import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 public class Enemy extends Characters {
     private int x, y, w, h, speed, health, damage, stam, dx, dy;
     private weapons weapons;
-    
+    private ImageIcon pic;
 
-    public Enemy(){
+    public Enemy() {
         super();
     }
-    public Enemy(int x , int y, int speed, int health , int damage , int stam , ImageIcon pic, weapons weap){
+
+    public Enemy(int x, int y, int speed, int health, int damage, int stam, ImageIcon pic, weapons weap) {
+        super(x, y, 10, 10, speed, health, damage, stam, pic, weap);
         this.x = x;
         this.y = y;
-        this.w = 0; 
-        this.h = 0; 
+        this.w = pic.getIconWidth(); // Set width based on image width
+        this.h = pic.getIconHeight(); // Set height based on image height
         this.speed = speed;
         this.health = health;
         this.damage = damage;
@@ -23,131 +24,123 @@ public class Enemy extends Characters {
         this.dx = 0;
         this.dy = 0;
         this.weapons = weap;
-        super(x, y, 10, 10, speed, health, damage, stam, pic, weap);
-        x = 0;
-        y = 0;
-        w = 0;
-        h = 0;
-        speed = 0;
-        health = 0;
-        damage = 0;
-        stam = 0;
-        dx = 0;
-        dy = 0;
-        pic = new ImageIcon();
-        weap = null;
+        this.pic = pic;
     }
-    public Enemy(int xV, int yV, int width, int height, int sp, int hea, int st, int dam, ImageIcon p, weapons weap) {
-        x = xV;
-        y = yV;
-        w = width;
-        h = height;
-        speed = sp;
-        health = hea;
-        damage = dam;
-        stam = st;
-        pic = p;
-        dx = 0;
-        dy = 0;
-        this.weapons = weap;
+
+    // Method to draw the enemy
+    public void draw(Graphics g) {
+        g.drawImage(pic.getImage(), x, y, null);
     }
+
+    // Method to get the bounding box of the enemy
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, w, h);
+    }
+
+    // Method to handle taking damage
+    public void takeDamage(int damage) {
+        this.health -= damage;
+    }
+
+    // Method to check if the enemy is defeated
+    public boolean isDefeated() {
+        return this.health <= 0;
+    }
+
+    // Getters and setters for x, y, width, height, etc.
     public int getX() {
-        return this.x;
-    }
-
-    public int getY() {
-        return this.y;
-    }
-
-    public int getWidth() {
-        return this.w;
-    }
-
-    public int getHeight() {
-        return this.h;
-    }
-
-    public int getSpeed() {
-        return this.speed;
-    }
-
-    public int getHealth() {
-        return this.health;
-    }
-
-    public int getDamage() {
-        return this.damage;
-    }
-
-    public int getStamina() {
-        return this.stam;
-    }
-
-    public int getDx() {
-        return this.dx;
-    }
-
-    public int getDy() {
-        return this.dy;
-    }
-
-    public ImageIcon getPic() {
-        return this.getPic();
-    }
-
-    public weapons getWeapon() {
-        return this.weapons;
+        return x;
     }
 
     public void setX(int x) {
         this.x = x;
     }
 
+    public int getY() {
+        return y;
+    }
+
     public void setY(int y) {
         this.y = y;
+    }
+
+    public int getWidth() {
+        return w;
     }
 
     public void setWidth(int w) {
         this.w = w;
     }
 
+    public int getHeight() {
+        return h;
+    }
+
     public void setHeight(int h) {
         this.h = h;
     }
+
+    public int getSpeed() {
+        return speed;
+    }
+
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public int getHealth() {
+        return health;
     }
 
     public void setHealth(int health) {
         this.health = health;
     }
 
+    public int getDamage() {
+        return damage;
+    }
+
     public void setDamage(int damage) {
         this.damage = damage;
     }
 
-    public void setStamina(int stam) {
+    public int getStam() {
+        return stam;
+    }
+
+    public void setStam(int stam) {
         this.stam = stam;
+    }
+
+    public int getDx() {
+        return dx;
     }
 
     public void setDx(int dx) {
         this.dx = dx;
     }
 
+    public int getDy() {
+        return dy;
+    }
+
     public void setDy(int dy) {
         this.dy = dy;
+    }
+
+    public ImageIcon getPic() {
+        return pic;
     }
 
     public void setPic(ImageIcon pic) {
         this.pic = pic;
     }
 
-    public void setWeapon(weapons weap) {
-        this.weapons = weap;
+    public weapons getWeapon() {
+        return weapons;
     }
-    public void draw(Graphics g2d) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'draw'");
+
+    public void setWeapon(weapons weapons) {
+        this.weapons = weapons;
     }
 }
-
