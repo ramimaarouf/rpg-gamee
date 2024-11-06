@@ -7,6 +7,8 @@ public class weapons {
     private int damage;
     private int durability;
     private int dps;
+    private int x;
+    private int y;
     private Image image;
 
     public weapons(int damage, int durability, int dps, String imagePath) {
@@ -20,6 +22,19 @@ public class weapons {
         return image;
     }
 
+    public void setX(int x) {
+        this.x = x;
+    }
+    public int getX(){
+        return this.x;
+    }
+    public void setY(int y) {
+        this.y = y;
+    }
+    
+    public int getY() {
+        return y;
+    }
     public int getDamage() {
         return damage;
     }
@@ -66,17 +81,11 @@ public class weapons {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getWidth'");
     }
-
     public int getHeight() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getHeight'");
     }
 
-    int getX() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    int getY() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    // void setX(int i) method removed to avoid duplication
 }
+    

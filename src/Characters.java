@@ -7,6 +7,8 @@ public class Characters{
     protected ImageIcon pic;
 private weapons weap;
 private weapons weapon;
+
+private weapons currentWeapon;
 public Characters (){
     x=0;
     y=0;

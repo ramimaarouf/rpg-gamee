@@ -21,7 +21,10 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
     private Background pyrofloraBackground;
     private boolean gameOver = false;
 private int playerScore = 0;
-
+private boolean moveUp = false;
+private boolean moveDown = false;
+private boolean moveLeft = false;
+private boolean moveRight = false;
     private ArrayList<Characters> charList;
     private String screen="levelselection";
     private Characters player;
@@ -68,9 +71,9 @@ pyrofloraBackground = new Background("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gam
     }
     public Queue<Enemy> setEs(){
         Queue<Enemy> temp = new LinkedList<>();
-temp.add (new Alien (100,100));
-temp.add (new Alien (300,100));
-temp.add (new Alien (400,100));
+temp.add (new Alien (1000,470));
+temp.add (new Alien (1000,300));
+temp.add (new Alien (1000,500));
 return temp;
     }
 
@@ -105,10 +108,24 @@ public ArrayList<weapons> setWeaponList() {
     public void run() {
         try {
             while (true) {
-                Thread.currentThread().sleep(5);
+                if (moveUp && player != null) {
+                    player.setY(player.getY() - 5);  // Move up by 5 pixels
+                }
+                if (moveDown && player != null) {
+                    player.setY(player.getY() + 5);  // Move down by 5 pixels
+                }
+                if (moveLeft && player != null) {
+                    player.setX(player.getX() - 5);  // Move left by 5 pixels
+                }
+                if (moveRight && player != null) {
+                    player.setX(player.getX() + 5);  // Move right by 5 pixels
+                }
+                
+                Thread.sleep(10);  // Small delay to control movement speed
                 repaint();
             }
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
@@ -400,11 +417,22 @@ private void drawXylarisScreen(Graphics g2d) {
     drawXylarisBackground(g2d);
     g2d.setColor(Color.YELLOW);
     g2d.setFont(new Font("Arial", Font.BOLD, 30));
-    
+    if (player != null) {
+        player.drawChar(g2d);
+        weapons playerWeapon = player.getWeapon();
+        if (playerWeapon != null) {
+            int weaponX = player.getX() + 50; // Offset weapon to right of character
+            int weaponY = player.getY();
+            g2d.drawImage(playerWeapon.getImage(), weaponX, weaponY, 50, 50, null);
+
+    // Draw enemies one at a time
+    if (!enemies.isEmpty()) {
+        Enemy currentEnemy = enemies.peek();
+        currentEnemy.draw(g2d);
             }
-        
-    
-    
+}
+} 
+}   
     
     private void drawPyrofloraScreen(Graphics g2d) {
         drawPyrofloraBackground(g2d);
@@ -498,7 +526,22 @@ System.out.println("Screen switched to: " + screen);
             System.out.println("Screen switched to: " + screen);
             repaint();
             }
-    }
+            switch(e.getKeyCode()) {
+                case KeyEvent.VK_W:
+                    moveUp = true;
+                    break;
+                case KeyEvent.VK_S:
+                    moveDown = true;
+                    break;
+                case KeyEvent.VK_A:
+                    moveLeft = true;
+                    break;
+                case KeyEvent.VK_D:
+                    moveRight = true;
+                    break;
+            }
+
+        }
     
     
     
@@ -511,8 +554,23 @@ System.out.println("Screen switched to: " + screen);
     // DO NOT DELETE
     @Override
     public void keyReleased(KeyEvent e) {
-
+        switch(e.getKeyCode()) {
+            case KeyEvent.VK_W:
+                moveUp = false;
+                break;
+            case KeyEvent.VK_S:
+                moveDown = false;
+                break;
+            case KeyEvent.VK_A:
+                moveLeft = false;
+                break;
+            case KeyEvent.VK_D:
+                moveRight = false;
+                break;
+        }
+        repaint();
     }
+    
 
     @Override
     public void mouseDragged(MouseEvent arg0) {
