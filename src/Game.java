@@ -31,7 +31,7 @@ private boolean moveRight = false;
     private Queue <Enemy> enemies;
     private boolean characterSelected = false;
     private Planets selectedPlanet;
-
+    private weapons selectedWeapon = null;
     private ArrayList<weapons> weaponsList;
     private ArrayList<Planets> planetList;
     
@@ -235,7 +235,15 @@ if ("character1".equals(screen)) {
     
     twoDgraph.drawImage(back, null, 0, 0);
     drawScreens(g2d);
-    
+    }
+
+    private void drawPlayerWeapon(Graphics2D g2d) {
+        if (player.getWeapon() != null) {
+            weapons weapon = player.getWeapon();
+            int weaponX = player.getX() + 50;  
+            int weaponY = player.getY();
+            g2d.drawImage(weapon.getImage(), weaponX, weaponY, 50, 50, null);
+        }
     }
 
     
@@ -509,9 +517,9 @@ System.out.println("Screen switched to: " + screen);
             System.out.println("Screen switched to: " + screen);
             repaint();
         }else if (key == 53) {
-            screen = "twinblade";
-            System.out.println("Screen switched to: " + screen);
-            repaint();
+            selectedWeapon = weaponsList.get(0); // Select Twinblade
+            player.setWeapon(selectedWeapon);    // Equip to player
+            screen = "XylarisScreen"; 
         } else if (key == 54) {
             screen = "sword";
             System.out.println("Screen switched to: " + screen);

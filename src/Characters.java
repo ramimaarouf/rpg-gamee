@@ -55,7 +55,7 @@ public void drawChar(Graphics g2d) {
         weapon.drawWeapon(g2d, x + 50, y + 50);
     }
     if (currentWeapon != null) {
-        int weaponX = x + w; // Offset weapon to the right of the character
+        int weaponX = x + w; 
         int weaponY = y;
         g2d.drawImage(currentWeapon.getImage(), weaponX, weaponY, 50, 50, null);
     }
