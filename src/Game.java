@@ -109,19 +109,31 @@ public ArrayList<weapons> setWeaponList() {
         try {
             while (true) {
                 if (moveUp && player != null) {
-                    player.setY(player.getY() - 5);  // Move up by 5 pixels
+                    player.setY(player.getY() - 5);  
+                    if (player.getWeapon() != null) {
+                        player.getWeapon().setY(player.getY());
+                    }
                 }
                 if (moveDown && player != null) {
-                    player.setY(player.getY() + 5);  // Move down by 5 pixels
+                    player.setY(player.getY() + 5);  
+                    if (player.getWeapon() != null) {
+                        player.getWeapon().setY(player.getY());
+                    }
                 }
                 if (moveLeft && player != null) {
-                    player.setX(player.getX() - 5);  // Move left by 5 pixels
+                    player.setX(player.getX() - 5);  
+                    if (player.getWeapon() != null) {
+                        player.getWeapon().setX(player.getX() + player.getW()); 
+                    }
                 }
                 if (moveRight && player != null) {
-                    player.setX(player.getX() + 5);  // Move right by 5 pixels
+                    player.setX(player.getX() + 5);  
+                    if (player.getWeapon() != null) {
+                        player.getWeapon().setX(player.getX() + player.getW()); 
+                    }
                 }
                 
-                Thread.sleep(10);  // Small delay to control movement speed
+                Thread.sleep(10); 
                 repaint();
             }
         } catch (Exception e) {
@@ -545,7 +557,7 @@ System.out.println("Screen switched to: " + screen);
 
         }
     
-    
+        
     
         
     

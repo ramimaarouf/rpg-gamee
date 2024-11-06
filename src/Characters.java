@@ -49,11 +49,16 @@ public Characters (int xV, int yV, int width, int height , int sp, int hea, int 
     dx=0;
     dy=0;
 }
-public void drawChar (Graphics g2d){
+public void drawChar(Graphics g2d) {
+    g2d.drawImage(pic.getImage(), x, y, w, h, null);
     if (weapon != null) {
-        weapon.drawWeapon(g2d, x + 50, y + 50); 
+        weapon.drawWeapon(g2d, x + 50, y + 50);
     }
-    g2d.drawImage(pic.getImage(), x , y , w, h, null);
+    if (currentWeapon != null) {
+        int weaponX = x + w; // Offset weapon to the right of the character
+        int weaponY = y;
+        g2d.drawImage(currentWeapon.getImage(), weaponX, weaponY, 50, 50, null);
+    }
 }
 public int getX(){
     return this.x;
@@ -148,6 +153,9 @@ public void setWeapon(weapons weapon) {
                 weapon.setDurability(durability);
             }
         }
+
+
+        
 
     Object getImage() {
         throw new UnsupportedOperationException("Not supported yet.");
