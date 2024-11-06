@@ -68,7 +68,7 @@ public class weapons {
         g.drawString("DPS: " + dps, x, y + 60);
     }
 
-    // Correctly implemented getDam method
+  
     public int getDam() {
         return damage;
     }
@@ -85,7 +85,11 @@ public class weapons {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getHeight'");
     }
-
-    // void setX(int i) method removed to avoid duplication
+    public boolean hit(Enemy sm) {
+        if((sm.getY()+sm.getH())>getY()&&sm.getY()<getY()+getHeight()&&
+        sm.getX()<(getX()+getWidth())&&(sm.getX()+sm.getWidth())>getX()) {
+            return true;
+        }
+                return false;
 }
-    
+}   

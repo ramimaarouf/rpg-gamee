@@ -218,6 +218,11 @@ if ("character1".equals(screen)) {
         drawLevelSelection(g2d);
     } else if ("XylarisScreen".equals(screen)) {
         drawXylarisScreen(g2d);
+
+
+
+
+
     } else if ("PyrofloraScreen".equals(screen)) {
         drawPyrofloraScreen(g2d);
     }
@@ -441,22 +446,37 @@ private void drawXylarisScreen(Graphics g2d) {
         player.drawChar(g2d);
         weapons playerWeapon = player.getWeapon();
         if (playerWeapon != null) {
-            int weaponX = player.getX() + 50; // Offset weapon to right of character
+            int weaponX = player.getX() + 50;
             int weaponY = player.getY();
             g2d.drawImage(playerWeapon.getImage(), weaponX, weaponY, 50, 50, null);
+        for (Enemy enemy : enemies) {
+            enemy.draw(g2d);
+        if(checkWeaponsCollision(playerWeapon, enemy)) {
+                    enemy.takeDamage(playerWeapon.getDamage());
+                    if (enemy.isDefeated()) {
+                        enemies.remove(enemy);
+                        playerScore += 10;
+                    }
+                
+                
+                }
+        
+            }
+        
+            if (!enemies.isEmpty()) {
+                Enemy currentEnemy = enemies.peek();
+                currentEnemy.draw(g2d);
+            }
         }
     }
-
-    // Draw enemies one at a time
-    if (!enemies.isEmpty()) {
-        Enemy currentEnemy = enemies.peek();
-        currentEnemy.draw(g2d);
-    }
-}
-
-
-    
-    private void drawPyrofloraScreen(Graphics g2d) {
+    }  
+        
+            
+            private boolean checkWeaponsCollision(weapons playerWeapon, Enemy enemy) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'checkWeaponsCollision'");
+        }
+            private void drawPyrofloraScreen(Graphics g2d) {
         drawPyrofloraBackground(g2d);
         g2d.setColor(Color.YELLOW);
         g2d.setFont(new Font("Arial", Font.BOLD, 30));

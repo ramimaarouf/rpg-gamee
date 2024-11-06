@@ -1,53 +1,63 @@
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.Random;
+
 import javax.swing.ImageIcon;
 
 public class Enemy extends Characters {
     private int x, y, w, h, speed, health, damage, stam, dx, dy;
     private weapons weapons;
     private ImageIcon pic;
+        private Random random;
+    
+        public Enemy() {
+            super();
+            this.random = new Random();
 
-    public Enemy() {
-        super();
+        }
+    
+        public Enemy(int x, int y, int speed, int health, int damage, int stam, ImageIcon pic, weapons weap) {
+            super(x, y, 10, 10, speed, health, damage, stam, pic, weap);
+            this.x = x;
+            this.y = y;
+            this.w = pic.getIconWidth(); 
+            this.h = pic.getIconHeight(); 
+            this.speed = speed;
+            this.health = health;
+            this.damage = damage;
+            this.stam = stam;
+            this.dx = 0;
+            this.dy = 0;
+            this.weapons = weap;
+            this.pic = pic;
+            this.random = new Random(); 
     }
+    public void updatePosition() {
+        if (random.nextInt(100) < 5) { 
+            dx = random.nextInt(11) - 5; 
+            dy = random.nextInt(11) - 5; 
+        }
 
-    public Enemy(int x, int y, int speed, int health, int damage, int stam, ImageIcon pic, weapons weap) {
-        super(x, y, 10, 10, speed, health, damage, stam, pic, weap);
-        this.x = x;
-        this.y = y;
-        this.w = pic.getIconWidth(); // Set width based on image width
-        this.h = pic.getIconHeight(); // Set height based on image height
-        this.speed = speed;
-        this.health = health;
-        this.damage = damage;
-        this.stam = stam;
-        this.dx = 0;
-        this.dy = 0;
-        this.weapons = weap;
-        this.pic = pic;
+        // Update position
+        x += dx;
+        y += dy;
     }
-
-    // Method to draw the enemy
     public void draw(Graphics g) {
         g.drawImage(pic.getImage(), x, y, null);
     }
 
-    // Method to get the bounding box of the enemy
     public Rectangle getBounds() {
         return new Rectangle(x, y, w, h);
     }
 
-    // Method to handle taking damage
     public void takeDamage(int damage) {
         this.health -= damage;
     }
 
-    // Method to check if the enemy is defeated
     public boolean isDefeated() {
         return this.health <= 0;
     }
 
-    // Getters and setters for x, y, width, height, etc.
     public int getX() {
         return x;
     }
