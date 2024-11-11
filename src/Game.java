@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
+
 import javax.swing.*;
 
 public class Game extends JPanel implements Runnable, KeyListener, MouseListener,
@@ -21,11 +23,14 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
     private Background pyrofloraBackground;
     private boolean gameOver = false;
 private int playerScore = 0;
+private boolean isAttacking = false;
+
 private boolean moveUp = false;
 private boolean moveDown = false;
 private boolean moveLeft = false;
 private boolean moveRight = false;
     private ArrayList<Characters> charList;
+    private Random random = new Random();
     private String screen="levelselection";
     private Characters player;
     private Queue <Enemy> enemies;
@@ -34,7 +39,6 @@ private boolean moveRight = false;
     private weapons selectedWeapon = null;
     private ArrayList<weapons> weaponsList;
     private ArrayList<Planets> planetList;
-    
     public Game() {
 background= new Background("C:\\Users\\Demon\\Desktop\\rpg-gamee\\images\\planett.png");
 xylarisBackground = new Background("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\xxxxx.png");
@@ -442,40 +446,50 @@ private void drawXylarisScreen(Graphics g2d) {
     drawXylarisBackground(g2d);
     g2d.setColor(Color.YELLOW);
     g2d.setFont(new Font("Arial", Font.BOLD, 30));
+    
     if (player != null) {
         player.drawChar(g2d);
         weapons playerWeapon = player.getWeapon();
+        
         if (playerWeapon != null) {
-            int weaponX = player.getX() + 50;
-            int weaponY = player.getY();
-            g2d.drawImage(playerWeapon.getImage(), weaponX, weaponY, 50, 50, null);
-        for (Enemy enemy : enemies) {
-            enemy.draw(g2d);
-        if(checkWeaponsCollision(playerWeapon, enemy)) {
-                    enemy.takeDamage(playerWeapon.getDamage());
-                    if (enemy.isDefeated()) {
-                        enemies.remove(enemy);
-                        playerScore += 10;
-                    }
-                
-                
-                }
-        
-            }
-        
-            if (!enemies.isEmpty()) {
-                Enemy currentEnemy = enemies.peek();
-                currentEnemy.draw(g2d);
-            }
+            playerWeapon.setX(player.getX() + 50);
+            playerWeapon.setY(player.getY());
+            g2d.drawImage(playerWeapon.getImage(), playerWeapon.getX(), playerWeapon.getY(), 50, 50, null);
         }
     }
-    }  
-        
-            
-            private boolean checkWeaponsCollision(weapons playerWeapon, Enemy enemy) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'checkWeaponsCollision'");
+    
+    if (enemies != null && !enemies.isEmpty()) {
+        for (Enemy enemy : enemies) {
+            if (enemy != null) {
+                enemy.draw(g2d);
+            }
         }
+        
+        if (isAttacking && player != null && player.getWeapon() != null) {
+            weapons playerWeapon = player.getWeapon();
+            Queue<Enemy> currentEnemies = new LinkedList<>(enemies);
+            
+            for (Enemy enemy : currentEnemies) {
+                if (enemy != null && playerWeapon.hit(enemy)) {
+                    enemy.takeDamage(playerWeapon.getDamage());
+                    if (enemy.isDefeated()) {
+                        enemies.remove();
+                        playerScore += 10;
+                        
+                        if (!enemies.isEmpty()) {
+                            Enemy nextEnemy = enemies.peek();
+                            if (nextEnemy != null) {
+                                nextEnemy.setX(1000);
+                                nextEnemy.setY(random.nextInt(500));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } 
+} 
+            
             private void drawPyrofloraScreen(Graphics g2d) {
         drawPyrofloraBackground(g2d);
         g2d.setColor(Color.YELLOW);
@@ -554,6 +568,7 @@ System.out.println("Screen switched to: " + screen);
             repaint();
         }   else if (key == KeyEvent.VK_F) {
             swingSword();
+            isAttacking = true;
         }else if (key == KeyEvent.VK_X) {
             screen = "levelselection";
             System.out.println("Screen switched to: " + screen);
@@ -596,6 +611,9 @@ System.out.println("Screen switched to: " + screen);
     // DO NOT DELETE
     @Override
     public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_F) {
+            isAttacking = false;
+        }
         switch(e.getKeyCode()) {
             case KeyEvent.VK_W:
                 moveUp = false;

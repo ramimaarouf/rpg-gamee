@@ -10,6 +10,8 @@ public class weapons {
     private int x;
     private int y;
     private Image image;
+    private int width;
+    private int height;
 
     public weapons(int damage, int durability, int dps, String imagePath) {
         this.damage = damage;
@@ -17,7 +19,13 @@ public class weapons {
         this.dps = dps;
         this.image = new ImageIcon(imagePath).getImage();
     }
-
+    public int getWidth() {
+        return image != null ? image.getWidth(null) : 50; // default width if no image
+    }
+    
+    public int getHeight() {
+        return image != null ? image.getHeight(null) : 50; // default height if no image
+    }
     public Image getImage() {
         return image;
     }
@@ -77,14 +85,7 @@ public class weapons {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public int getWidth() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getWidth'");
-    }
-    public int getHeight() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getHeight'");
-    }
+   
     public boolean hit(Enemy sm) {
         if((sm.getY()+sm.getH())>getY()&&sm.getY()<getY()+getHeight()&&
         sm.getX()<(getX()+getWidth())&&(sm.getX()+sm.getWidth())>getX()) {
