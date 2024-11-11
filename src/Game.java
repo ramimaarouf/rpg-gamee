@@ -451,6 +451,7 @@ private void drawXylarisScreen(Graphics g2d) {
         player.drawChar(g2d);
         weapons playerWeapon = player.getWeapon();
         
+        
         if (playerWeapon != null) {
             playerWeapon.setX(player.getX() + 50);
             playerWeapon.setY(player.getY());
