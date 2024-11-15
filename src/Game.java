@@ -8,6 +8,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.util.Scanner;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -39,6 +44,10 @@ private boolean moveRight = false;
     private weapons selectedWeapon = null;
     private ArrayList<weapons> weaponsList;
     private ArrayList<Planets> planetList;
+private File saveFile;
+
+
+
     public Game() {
 background= new Background("C:\\Users\\Demon\\Desktop\\rpg-gamee\\images\\planett.png");
 xylarisBackground = new Background("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\xxxxx.png");
@@ -46,7 +55,7 @@ pyrofloraBackground = new Background("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gam
         weaponsList = setWeaponList();
 
        
-        
+        saveFile=new File("save.txt");
         new Thread(this).start();
 
         this.addKeyListener(this);
@@ -73,6 +82,52 @@ pyrofloraBackground = new Background("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gam
         enemies=setEs();
 
     }
+public void createFile() {
+try {
+    if(saveFile.createNewFile()) {
+        System.out.println("created file");
+    } else {
+        System.out.println("file already exists");
+    }
+} catch (IOException e) {
+    //TODO Auto-generated catch block
+    e.printStackTrace();
+}
+}
+public void readFile() throws FileNotFoundException{
+    Scanner sc = null;
+try {
+    sc = new Scanner(saveFile);
+    while(sc.hasNext()){        
+        System.out.println(sc.next());
+    }
+} catch (FileNotFoundException ex) {
+    ex.printStackTrace();
+
+}
+}
+public void writeToFile() throws IOException {
+    FileWriter myWriter =new FileWriter (saveFile);
+
+    //write whatever
+    if(enemies.isEmpty()){
+        myWriter.write("win");
+
+    }
+    else{
+        myWriter.write("You have" + enemies.size() + "enemies left");
+    }
+    myWriter.close();
+
+    System.out.println("Successfully wrote to the file");
+}void cathch (IOException e){
+    e.printStackTrace();
+}
+
+
+
+
+
     public Queue<Enemy> setEs(){
         Queue<Enemy> temp = new LinkedList<>();
 temp.add (new Alien (1000,470));
@@ -552,8 +607,8 @@ System.out.println("Screen switched to: " + screen);
             System.out.println("Screen switched to: " + screen);
             repaint();
         }else if (key == 53) {
-            selectedWeapon = weaponsList.get(0); // Select Twinblade
-            player.setWeapon(selectedWeapon);    // Equip to player
+            selectedWeapon = weaponsList.get(0);
+            player.setWeapon(selectedWeapon);   
             screen = "XylarisScreen"; 
         } else if (key == 54) {
             screen = "sword";
