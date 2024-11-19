@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.lang.annotation.Target;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,6 +20,7 @@ import java.io.PrintWriter;
 
 import javax.swing.*;
 import java.util.List;
+import javax.xml.namespace.QName;
 
 
 
@@ -49,19 +51,34 @@ private boolean moveRight = false;
     private weapons selectedWeapon = null;
     private ArrayList<weapons> weaponsList;
     private ArrayList<Planets> planetList;
-    private List<Projectile> projectiles = new ArrayList<>();
+    private ArrayList<Projectile> projectiles;
+        private List<Target> targets;
+
 private File saveFile;
 private static final String SAVE_FILE = "save.txt";
+private List <Ranged> eProjectiles;
+private List <Ranged> eMissiles;
+    private Character Character;
+    private List<Melee> Melee;
 
 
+public Game(List<Ranged> eProjectiles, List<Ranged> eMissiles, Character player, int lives) {
+    this.eProjectiles = eProjectiles;
+    this.eMissiles = eMissiles;
+    this.Character = player;
+}
 
-    public Game() {
-background= new Background("C:\\Users\\Demon\\Desktop\\rpg-gamee\\images\\planett.png");
-xylarisBackground = new Background("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\xxxxx.png");
-pyrofloraBackground = new Background("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\ccc.png");
-        weaponsList = setWeaponList();
+public Game() {
+    background = new Background("C:\\Users\\Demon\\Desktop\\rpg-gamee\\images\\planett.png");
+    xylarisBackground = new Background("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\xxxxx.png");
+    pyrofloraBackground = new Background("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\ccc.png");
+    weaponsList = setWeaponList();
+{
+}
 
-       
+  
+    
+
         saveFile=new File("save.txt");
         new Thread(this).start();
     Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -119,7 +136,6 @@ try {
 public void writeToFile() throws IOException {
     FileWriter myWriter =new FileWriter (saveFile);
 
-    //write whatever
     if(enemies.isEmpty()){
         myWriter.write("win");
 
@@ -150,6 +166,33 @@ public void writeToFile() throws IOException {
             e.printStackTrace();
         }
     }
+    public boolean enemyHit() {
+        if (!enemies.isEmpty()) {
+            for (int i = 0; i < enemies.size(); i++) {
+                for (int j = 0; j < Melee.size(); j++) {
+                    if (enemies.get(i).hit(Melee.get(j))) {
+                         Melee.remove(j);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkPlayerHit() {
+        for (Ranged em : eProjectiles) {
+            if (player.attack(em)) {
+                eMissiles.remove(em);
+                
+                    return true;
+                }
+            }
+        
+        return false;
+    }
+
+
 
 
     public Queue<Enemy> setEs(){
@@ -533,52 +576,29 @@ private void drawXylarisScreen(Graphics g2d) {
         weapons playerWeapon = player.getWeapon();
         
         
-        if (playerWeapon != null) {
-            playerWeapon.setX(player.getX() + 50);
-            playerWeapon.setY(player.getY());
-            g2d.drawImage(playerWeapon.getImage(), playerWeapon.getX(), playerWeapon.getY(), 50, 50, null);
-        }
-    }
-    
-    List<Projectile> projectilesToRemove = new ArrayList<>();
-    for (Projectile projectile : projectiles) {
-        projectile.draw(g2d);
-        projectile.move();
-        System.out.println("Drawing projectile at (" + projectile.getX() + ", " + projectile.getY() + ")");
-        
-        // Check for projectile collision with enemies
-        for (Enemy enemy : enemies) {
-            if (projectile.getX() < enemy.getX() + enemy.getWidth() &&
-                projectile.getX() + projectile.getWidth() > enemy.getX() &&
-                projectile.getY() < enemy.getY() + enemy.getHeight() &&
-                projectile.getY() + projectile.getHeight() > enemy.getY()) {
-                // Collision detected
-                enemies.remove(enemy);
-                projectilesToRemove.add(projectile);
-                playerScore += 10;
-                System.out.println("Projectile hit enemy at (" + enemy.getX() + ", " + enemy.getY() + ")");
-                break;
+            if (playerWeapon != null) {
+                playerWeapon.setX(player.getX() + 50);
+                playerWeapon.setY(player.getY());
+                g2d.drawImage(playerWeapon.getImage(), playerWeapon.getX(), playerWeapon.getY(), 50, 50, null);
             }
         }
-    }
-    projectiles.removeAll(projectilesToRemove);
+
+           
     
-    // Draw enemies
+    
     for (Enemy enemy : enemies) {
         enemy.draw(g2d);
     }
     
-    // Draw score
     g2d.setColor(Color.WHITE);
     g2d.drawString("Score: " + playerScore, 50, 50);
 }
-        
-            
-            private void drawPyrofloraScreen(Graphics g2d) {
+    private void drawPyrofloraScreen(Graphics g2d) {
         drawPyrofloraBackground(g2d);
         g2d.setColor(Color.YELLOW);
         g2d.setFont(new Font("Arial", Font.BOLD, 30));
     }
+    
 public static void main(String[] args) {
     JFrame frame = new JFrame("RPG Game");
     frame.setSize(1600, 800);
@@ -765,5 +785,8 @@ public void mouseDragged(MouseEvent e) {
         // TODO Auto-generated method stub
     }
 
-
+   
     }
+
+
+
