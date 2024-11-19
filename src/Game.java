@@ -8,18 +8,23 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Scanner;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.swing.*;
+import java.util.List;
+
+
 
 public class Game extends JPanel implements Runnable, KeyListener, MouseListener,
 
         MouseMotionListener {
-
     private BufferedImage back;
     private boolean alienStatsPrinted = false;
     private Background background;
@@ -44,7 +49,9 @@ private boolean moveRight = false;
     private weapons selectedWeapon = null;
     private ArrayList<weapons> weaponsList;
     private ArrayList<Planets> planetList;
+    private List<Projectile> projectiles = new ArrayList<>();
 private File saveFile;
+private static final String SAVE_FILE = "save.txt";
 
 
 
@@ -57,8 +64,11 @@ pyrofloraBackground = new Background("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gam
        
         saveFile=new File("save.txt");
         new Thread(this).start();
+    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+        saveScreenState();
+    }));
 
-        this.addKeyListener(this);
+    this.addKeyListener(this);
 
         this.addMouseListener(this);
 
@@ -124,8 +134,22 @@ public void writeToFile() throws IOException {
     e.printStackTrace();
 }
 
-
-
+    private void saveScreenState() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(SAVE_FILE))) {
+            writer.println(screen);
+            System.out.println("Screen state saved: " + screen);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+ private void loadScreenState() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(SAVE_FILE))) {
+            screen = reader.readLine();
+            System.out.println("Screen state loaded: " + screen);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public Queue<Enemy> setEs(){
@@ -163,7 +187,9 @@ public ArrayList<weapons> setWeaponList() {
         System.out.println(temp.size());
         return temp;
     }
-        
+    public void addProjectile(int x, int y, int speed, String name, String imagePath) {
+        projectiles.add(new Projectile(x, y, speed, name, imagePath));
+    }
     public void run() {
         try {
             while (true) {
@@ -514,37 +540,39 @@ private void drawXylarisScreen(Graphics g2d) {
         }
     }
     
-    if (enemies != null && !enemies.isEmpty()) {
-        for (Enemy enemy : enemies) {
-            if (enemy != null) {
-                enemy.draw(g2d);
-            }
-        }
+    List<Projectile> projectilesToRemove = new ArrayList<>();
+    for (Projectile projectile : projectiles) {
+        projectile.draw(g2d);
+        projectile.move();
+        System.out.println("Drawing projectile at (" + projectile.getX() + ", " + projectile.getY() + ")");
         
-        if (isAttacking && player != null && player.getWeapon() != null) {
-            weapons playerWeapon = player.getWeapon();
-            Queue<Enemy> currentEnemies = new LinkedList<>(enemies);
-            
-            for (Enemy enemy : currentEnemies) {
-                if (enemy != null && playerWeapon.hit(enemy)) {
-                    enemy.takeDamage(playerWeapon.getDamage());
-                    if (enemy.isDefeated()) {
-                        enemies.remove();
-                        playerScore += 10;
-                        
-                        if (!enemies.isEmpty()) {
-                            Enemy nextEnemy = enemies.peek();
-                            if (nextEnemy != null) {
-                                nextEnemy.setX(1000);
-                                nextEnemy.setY(random.nextInt(500));
-                            }
-                        }
-                    }
-                }
+        // Check for projectile collision with enemies
+        for (Enemy enemy : enemies) {
+            if (projectile.getX() < enemy.getX() + enemy.getWidth() &&
+                projectile.getX() + projectile.getWidth() > enemy.getX() &&
+                projectile.getY() < enemy.getY() + enemy.getHeight() &&
+                projectile.getY() + projectile.getHeight() > enemy.getY()) {
+                // Collision detected
+                enemies.remove(enemy);
+                projectilesToRemove.add(projectile);
+                playerScore += 10;
+                System.out.println("Projectile hit enemy at (" + enemy.getX() + ", " + enemy.getY() + ")");
+                break;
             }
         }
-    } 
-} 
+    }
+    projectiles.removeAll(projectilesToRemove);
+    
+    // Draw enemies
+    for (Enemy enemy : enemies) {
+        enemy.draw(g2d);
+    }
+    
+    // Draw score
+    g2d.setColor(Color.WHITE);
+    g2d.drawString("Score: " + playerScore, 50, 50);
+}
+        
             
             private void drawPyrofloraScreen(Graphics g2d) {
         drawPyrofloraBackground(g2d);
@@ -570,7 +598,26 @@ public static void main(String[] args) {
         // TODO Auto-generated method stub
 
     }
-
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_F) {
+            isAttacking = false;
+        }
+        switch(e.getKeyCode()) {
+            case KeyEvent.VK_W:
+                moveUp = false;
+                break;
+            case KeyEvent.VK_S:
+                moveDown = false;
+                break;
+            case KeyEvent.VK_A:
+                moveLeft = false;
+                break;
+            case KeyEvent.VK_D:
+                moveRight = false;
+                break;
+        }
+        repaint();
+    }
     // DO NOT DELETE
     @Override
     public void keyPressed(KeyEvent e) {
@@ -633,8 +680,9 @@ System.out.println("Screen switched to: " + screen);
             screen = "XylarisScreen";
             System.out.println("Screen switched to: " + screen);
             repaint();
-        }
-        else if (key == KeyEvent.VK_C) {
+        }else if (key==KeyEvent.VK_P){
+        
+         } else if (key == KeyEvent.VK_C) {
             screen = "PyrofloraScreen";
             System.out.println("Screen switched to: " + screen);
             repaint();
@@ -665,31 +713,8 @@ System.out.println("Screen switched to: " + screen);
     
 
     // DO NOT DELETE
-    @Override
-    public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_F) {
-            isAttacking = false;
-        }
-        switch(e.getKeyCode()) {
-            case KeyEvent.VK_W:
-                moveUp = false;
-                break;
-            case KeyEvent.VK_S:
-                moveDown = false;
-                break;
-            case KeyEvent.VK_A:
-                moveLeft = false;
-                break;
-            case KeyEvent.VK_D:
-                moveRight = false;
-                break;
-        }
-        repaint();
-    }
-    
-
-    @Override
-    public void mouseDragged(MouseEvent arg0) {
+@Override
+public void mouseDragged(MouseEvent e) {
         // TODO Auto-generated method stub
 
     }
@@ -704,9 +729,13 @@ System.out.println("Screen switched to: " + screen);
 
     @Override
     public void mouseClicked(MouseEvent arg0) {
-        // TODO Auto-generated method stub
+        if (selectedWeapon != null && selectedWeapon.equals(weaponsList.get(2))) { // Assuming gun is at index 2
+            addProjectile(player.getX(), player.getY(), 5, "Projectile", "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png");
+            System.out.println("Projectile fired at (" + player.getX() + ", " + player.getY() + ")");
 
+        }
     }
+    
 
     @Override
     public void mouseEntered(MouseEvent arg0) {
@@ -735,5 +764,6 @@ System.out.println("Screen switched to: " + screen);
     public void mouseReleased(MouseEvent arg0) {
         // TODO Auto-generated method stub
     }
+
 
     }
