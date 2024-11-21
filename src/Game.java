@@ -136,7 +136,8 @@ public void writeToFile() throws IOException {
 
     private void saveScreenState() {
         try (PrintWriter writer = new PrintWriter(new FileWriter(SAVE_FILE))) {
-            writer.println(screen);
+            writer.println("You are on the " + screen);
+            writer.println("Your score is"+ playerScore);
             System.out.println("Screen state saved: " + screen);
         } catch (IOException e) {
             e.printStackTrace();
