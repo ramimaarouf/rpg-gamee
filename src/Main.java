@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.FileNotFoundException;
+
 import javax.swing.*;
 public class Main extends JFrame{
 private static final int WIDTH =1800;
@@ -20,6 +22,12 @@ addWindowListener(new WindowListener() {
     public void windowOpened(WindowEvent e) {
         // TODO Auto-generated method stub
         play.createFile();
+        try {
+            play.readFile();
+        } catch (FileNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
     }
 
     @Override

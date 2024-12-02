@@ -88,7 +88,7 @@ public Game() {
     this.addKeyListener(this);
 
         this.addMouseListener(this);
-
+ 
         this.addMouseMotionListener(this);
 
         key = -1;
@@ -150,35 +150,30 @@ public void writeToFile() throws IOException {
     e.printStackTrace();
 }
 
-    private void saveScreenState() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(SAVE_FILE))) {
-            writer.println(screen);
-            System.out.println("Screen state saved: " + screen);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+private void saveScreenState() {
+    try (PrintWriter writer = new PrintWriter(new FileWriter(SAVE_FILE))) {
+        writer.println("Screen: " + screen);
+        writer.println("Score: " + playerScore);
+        System.out.println("Game state saved successfully.");
+    } catch (IOException e) {
+        e.printStackTrace();
     }
- private void loadScreenState() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(SAVE_FILE))) {
-            screen = reader.readLine();
-            System.out.println("Screen state loaded: " + screen);
-        } catch (IOException e) {
-            e.printStackTrace();
+}
+
+private void loadScreenState() {
+    try (BufferedReader reader = new BufferedReader(new FileReader(SAVE_FILE))) {
+        String screenLine = reader.readLine();
+        String scoreLine = reader.readLine();
+        
+        if (screenLine != null && scoreLine != null) {
+            screen = screenLine.split(": ")[1];
+            playerScore = Integer.parseInt(scoreLine.split(": ")[1]);
+            System.out.println("Screen state and score loaded: " + screen + ", " + playerScore);
         }
+    } catch (IOException e) {
+        e.printStackTrace();
     }
-    public boolean enemyHit() {
-        if (!enemies.isEmpty()) {
-            for (int i = 0; i < enemies.size(); i++) {
-                for (int j = 0; j < Melee.size(); j++) {
-                    if (enemies.get(i).hit(Melee.get(j))) {
-                         Melee.remove(j);
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
+}
     
     public boolean checkPlayerHit() {
         for (Ranged em : eProjectiles) {
@@ -191,7 +186,6 @@ public void writeToFile() throws IOException {
         
         return false;
     }
-
 
 
 
@@ -706,6 +700,23 @@ System.out.println("Screen switched to: " + screen);
             screen = "PyrofloraScreen";
             System.out.println("Screen switched to: " + screen);
             repaint();
+            }
+            if (key == KeyEvent.VK_M) {
+                loadScreenState(); 
+                repaint(); 
+            } else if (screen.equals("levelselection")) {
+                if (key == KeyEvent.VK_1) {
+                    System.out.println("Selected Level 1: Xylaris");
+                    screen = "xylaris"; 
+                    System.out.println("Screen switched to: " + screen);
+                    repaint();
+                }
+            } else {
+                if (key == KeyEvent.VK_X) {
+                    screen = "levelselection";
+                    System.out.println("Screen switched to: " + screen);
+                    repaint();
+                }
             }
             switch(e.getKeyCode()) {
                 case KeyEvent.VK_W:

@@ -1,1 +1,2 @@
-start
+Screen: XylarisScreen
+Score: 0
