@@ -17,6 +17,7 @@ import java.io.FileWriter;
 import java.util.Scanner;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.annotation.Target;
 
 import javax.swing.*;
 import java.util.List;
@@ -174,19 +175,33 @@ private void loadScreenState() {
         e.printStackTrace();
     }
 }
-    
-    public boolean checkPlayerHit() {
-        for (Ranged em : eProjectiles) {
-            if (player.attack(em)) {
-                eMissiles.remove(em);
-                
-                    return true;
+public boolean enemyHit() {
+    if (!enemies.isEmpty()) {
+        Enemy enemy = enemies.element(); 
+        for (int j = 0; j < Melee.size(); j++) {
+            if (enemy.hit(Melee.get(j))) {
+                Melee.remove(j);
+                return true;
                 }
             }
         
-        return false;
+    
+    return false;
+        }
+            return alienStatsPrinted;
     }
-
+public boolean checkPlayerHit() {
+    for (Ranged em : eProjectiles) {
+        if (player.attack(em)) {
+            eMissiles.remove(em);
+            
+                return true;
+            }
+        }
+    
+    return false;
+}
+    
 
 
     public Queue<Enemy> setEs(){
@@ -795,9 +810,22 @@ public void mouseDragged(MouseEvent e) {
     public void mouseReleased(MouseEvent arg0) {
         // TODO Auto-generated method stub
     }
-
-   
+private void handleMousePressed(MouseEvent e) {
+   if(enemyHit()){
+System.out.println("Enemy hit!");
+removeEnemy();
+   }
     }
-
-
-
+        
+private void removeEnemy() {
+    if(!enemies.isEmpty()){
+    enemies.remove();
+    playerScore += 10;
+    System.out.println("Enemy removed. Score: " + playerScore);
+    if (enemies.isEmpty()) {
+        System.out.println("You got him !");
+    }else{}
+    System.out.println("You beat the planet !");
+}
+}
+        }

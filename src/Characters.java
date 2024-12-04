@@ -157,7 +157,9 @@ public void setWeapon(weapons weapon) {
         public boolean attack(Ranged ranged) {
                     return false;
         }
-        
+        public boolean hit (Melee melee){
+            return false;
+        }   
 
     Object getImage() {
         throw new UnsupportedOperationException("Not supported yet.");
