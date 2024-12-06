@@ -177,19 +177,15 @@ private void loadScreenState() {
 }
 public boolean enemyHit() {
     if (!enemies.isEmpty()) {
-        Enemy enemy = enemies.element(); 
-        for (int j = 0; j < Melee.size(); j++) {
-            if (enemy.hit(Melee.get(j))) {
-                Melee.remove(j);
-                return true;
-                }
-            }
+        Enemy enemy = enemies.peek(); // Check the next enemy in the queue
+        if (enemy.getBounds().contains(x, y)) { // Check collision using mouse position
+            return true;
+        }
+    }
+    return false;
+}
         
     
-    return false;
-        }
-            return alienStatsPrinted;
-    }
 public boolean checkPlayerHit() {
     for (Ranged em : eProjectiles) {
         if (player.attack(em)) {
@@ -243,6 +239,7 @@ public ArrayList<weapons> setWeaponList() {
         projectiles.add(new Projectile(x, y, speed, name, imagePath));
     }
     public void run() {
+    
         try {
             while (true) {
                 if (moveUp && player != null) {
@@ -798,24 +795,24 @@ public void mouseDragged(MouseEvent e) {
     }
 
     @Override
-    public void mousePressed(MouseEvent arg0) {
-        // TODO Auto-generated method stub
-        System.out.println("you clicked at" + arg0.getY());
-        x = arg0.getX();
-        y = arg0.getY();
-
+    public void mousePressed(MouseEvent e) {
+        x = e.getX();
+        y = e.getY();
+        System.out.println("Mouse pressed at (" + x + ", " + y + ")");
+        
+        if (enemyHit()) {
+            System.out.println("Enemy hit!");
+            removeEnemy();
+        }
     }
+
+    
 
     @Override
     public void mouseReleased(MouseEvent arg0) {
         // TODO Auto-generated method stub
     }
-private void handleMousePressed(MouseEvent e) {
-   if(enemyHit()){
-System.out.println("Enemy hit!");
-removeEnemy();
-   }
-    }
+
         
 private void removeEnemy() {
     if(!enemies.isEmpty()){
