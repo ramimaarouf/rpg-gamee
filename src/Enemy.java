@@ -1,7 +1,6 @@
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
-
 import javax.swing.ImageIcon;
 
 public class Enemy extends Characters {
@@ -9,7 +8,11 @@ public class Enemy extends Characters {
     private weapons weapons;
     private ImageIcon pic;
         private Random random;
-    
+        private boolean killed;
+
+        public boolean isKilled() {
+            return killed;
+        }
         public Enemy() {
             super();
             this.random = new Random();
@@ -152,5 +155,11 @@ public class Enemy extends Characters {
 
     public void setWeapon(weapons weapons) {
         this.weapons = weapons;
+    }
+    public void setKilled(boolean killed) {
+        this.killed = killed;
+    }
+    public void setPosition(int x, int y) {
+       
     }
 }

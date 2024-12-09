@@ -9,6 +9,20 @@
             "name": "Game",
             "request": "launch",
             "mainClass": "Game",
+            "projectName": "rpg-gamee_da518da8"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "rpg-gamee_da518da8"
+        },
+        {
+            "type": "java",
+            "name": "Game",
+            "request": "launch",
+            "mainClass": "Game",
             "projectName": "rpg-gamee-2_efdab1be"
         },
         {

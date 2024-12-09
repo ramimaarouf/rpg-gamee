@@ -48,21 +48,21 @@ private boolean moveRight = false;
     private Characters player;
     private Queue <Enemy> enemies;
     private boolean characterSelected = false;
+    private Enemy currentEnemy;
     private Planets selectedPlanet;
     private weapons selectedWeapon = null;
     private ArrayList<weapons> weaponsList;
     private ArrayList<Planets> planetList;
     private ArrayList<Projectile> projectiles;
         private List<Target> targets;
-
+private Queue<Enemy> enemyQueue;
 private File saveFile;
 private static final String SAVE_FILE = "save.txt";
 private List <Ranged> eProjectiles;
 private List <Ranged> eMissiles;
     private Character Character;
     private List<Melee> Melee;
-
-
+    private List<Projectile> aMissiles;
 public Game(List<Ranged> eProjectiles, List<Ranged> eMissiles, Character player, int lives) {
     this.eProjectiles = eProjectiles;
     this.eMissiles = eMissiles;
@@ -70,16 +70,13 @@ public Game(List<Ranged> eProjectiles, List<Ranged> eMissiles, Character player,
 }
 
 public Game() {
+    initializeGame();
+    aMissiles=new ArrayList<>();
     background = new Background("C:\\Users\\Demon\\Desktop\\rpg-gamee\\images\\planett.png");
     xylarisBackground = new Background("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\xxxxx.png");
     pyrofloraBackground = new Background("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\ccc.png");
     weaponsList = setWeaponList();
 {
-}
-
-  
-    
-
         saveFile=new File("save.txt");
         new Thread(this).start();
     Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -110,6 +107,14 @@ public Game() {
         enemies=setEs();
 
     }
+}
+
+public void initializeGame() {
+    enemyQueue = setEs();
+    currentEnemy = null;
+    player = new Characters();
+    playerScore = 0;
+}
 public void createFile() {
 try {
     if(saveFile.createNewFile()) {
@@ -235,14 +240,23 @@ public ArrayList<weapons> setWeaponList() {
         System.out.println(temp.size());
         return temp;
     }
+    public ArrayList<Projectile> setProjectileList() {
+        ArrayList<Projectile> temp = new ArrayList<>();
+        temp.add(new Projectile(100, 100, 10, "MISSLEE", "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png"));
+        temp.add(new Projectile(100, 100, 10, "MISSLEE", "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png"));
+        temp.add(new Projectile(100, 100, 10, "MISSLEE", "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png"));
+        temp.add(new Projectile(100, 100, 10, "MISSLEE", "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png"));
+        System.out.println(temp.size());
+        return temp;
+    }
     public void addProjectile(int x, int y, int speed, String name, String imagePath) {
         projectiles.add(new Projectile(x, y, speed, name, imagePath));
     }
     public void run() {
-    
+       
         try {
             while (true) {
-                if (moveUp && player != null) {
+                 if (moveUp && player != null) {
                     player.setY(player.getY() - 5);  
                     if (player.getWeapon() != null) {
                         player.getWeapon().setY(player.getY());
@@ -274,7 +288,8 @@ public ArrayList<weapons> setWeaponList() {
             System.out.println(e);
         }
     }
-
+    @Override
+    
     public void paint(Graphics g) {
         Graphics2D twoDgraph = (Graphics2D) g;
         if (back == null)
@@ -371,7 +386,6 @@ if ("character1".equals(screen)) {
 }
 
 
-    
     twoDgraph.drawImage(back, null, 0, 0);
     drawScreens(g2d);
     }
@@ -576,34 +590,39 @@ private void drawXylarisScreen(Graphics g2d) {
     drawXylarisBackground(g2d);
     g2d.setColor(Color.YELLOW);
     g2d.setFont(new Font("Arial", Font.BOLD, 30));
-    
+
     if (player != null) {
         player.drawChar(g2d);
         weapons playerWeapon = player.getWeapon();
-        
-        
-            if (playerWeapon != null) {
-                playerWeapon.setX(player.getX() + 50);
-                playerWeapon.setY(player.getY());
-                g2d.drawImage(playerWeapon.getImage(), playerWeapon.getX(), playerWeapon.getY(), 50, 50, null);
-            }
-        }
 
-           
-    
-    
-    for (Enemy enemy : enemies) {
-        enemy.draw(g2d);
+        if (playerWeapon != null) {
+            playerWeapon.setX(player.getX() + 50);
+            playerWeapon.setY(player.getY());
+            g2d.drawImage(playerWeapon.getImage(), playerWeapon.getX(), playerWeapon.getY(), 50, 50, null);
+        }
     }
-    
+
+    if (currentEnemy == null || currentEnemy.isKilled()) {
+        if (!enemyQueue.isEmpty()) {
+            currentEnemy = enemyQueue.poll();
+            currentEnemy.setPosition(500, 500); 
+        }
+    }
+
+    if (currentEnemy != null) {
+        currentEnemy.draw(g2d);
+    }
+  
+
     g2d.setColor(Color.WHITE);
     g2d.drawString("Score: " + playerScore, 50, 50);
 }
-    private void drawPyrofloraScreen(Graphics g2d) {
-        drawPyrofloraBackground(g2d);
-        g2d.setColor(Color.YELLOW);
-        g2d.setFont(new Font("Arial", Font.BOLD, 30));
-    }
+    
+private void drawPyrofloraScreen(Graphics g2d) {
+    drawPyrofloraBackground(g2d);
+    g2d.setColor(Color.YELLOW);
+    g2d.setFont(new Font("Arial", Font.BOLD, 30));
+}
     
 public static void main(String[] args) {
     JFrame frame = new JFrame("RPG Game");
@@ -817,7 +836,8 @@ public void mouseDragged(MouseEvent e) {
 private void removeEnemy() {
     if(!enemies.isEmpty()){
     enemies.remove();
-    playerScore += 10;
+    currentEnemy = null; 
+  playerScore += 10;
     System.out.println("Enemy removed. Score: " + playerScore);
     if (enemies.isEmpty()) {
         System.out.println("You got him !");
@@ -825,4 +845,46 @@ private void removeEnemy() {
     System.out.println("You beat the planet !");
 }
 }
+
+    
+
+
+public void getAlienMissile() {
+    if (currentEnemy != null) {
+        aMissiles.add(new Projectile(
+            currentEnemy.getX() + (currentEnemy.getWidth() / 2),
+            currentEnemy.getY() + currentEnemy.getHeight(),
+            5, "Alien Missile", "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png"
+        ));
+    }
+}
+
+public void drawAlienMissiles(Graphics g2d) {
+    for (Projectile am : aMissiles) {
+        am.draw(g2d); 
+        System.out.println("drawing missile");
+    }
+}
+
+private void updateMissiles() {
+    for (Projectile am : aMissiles) {
+        am.setdy(2);
+        am.setY(am.getY() + am.getdy());
+    }
+}
+    private void handleEnemyShooting() {
+        if (currentEnemy != null && random.nextInt(100) < 2) { // 2% chance
+            getAlienMissile();
         }
+    }
+    public void actionPerformed(ActionEvent e) {
+        handleEnemyShooting();
+        updateMissiles();
+        repaint();
+    }
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        drawAlienMissiles(g);
+    }
+}
+        
