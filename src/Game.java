@@ -67,6 +67,7 @@ public Game(List<Ranged> eProjectiles, List<Ranged> eMissiles, Character player,
     this.eProjectiles = eProjectiles;
     this.eMissiles = eMissiles;
     this.Character = player;
+   
 }
 
 public Game() {
@@ -280,7 +281,8 @@ public ArrayList<weapons> setWeaponList() {
                         player.getWeapon().setX(player.getX() + player.getW()); 
                     }
                 }
-                
+                updateGameElements();
+
                 Thread.sleep(10); 
                 repaint();
             }
@@ -384,6 +386,7 @@ if ("character1".equals(screen)) {
     }
     
 }
+drawAlienMissiles(g2d);
 
 
     twoDgraph.drawImage(back, null, 0, 0);
@@ -850,26 +853,52 @@ private void removeEnemy() {
 
 
 public void getAlienMissile() {
-    if (currentEnemy != null) {
-        aMissiles.add(new Projectile(
+    if (currentEnemy != null && aMissiles != null) {
+       
+        int dx = player.getX() > currentEnemy.getX() ? 5 : -5;
+        
+        Projectile missile = new Projectile(
             currentEnemy.getX() + (currentEnemy.getWidth() / 2),
             currentEnemy.getY() + currentEnemy.getHeight(),
-            5, "Alien Missile", "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png"
-        ));
+            dx,  
+            "Alien Missile", 
+            "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png"
+        );
+        aMissiles.add(missile);
+        System.out.println("Missile added. Total missiles: " + aMissiles.size());
+    } else {
+        System.out.println("Cannot add missile: enemy is null or missiles list is not initialized");
     }
 }
 
 public void drawAlienMissiles(Graphics g2d) {
+    if (aMissiles == null) {
+        System.out.println("Missiles list is null!");
+        return;
+    }
+    
+    System.out.println("Total missiles: " + aMissiles.size());
+    
     for (Projectile am : aMissiles) {
-        am.draw(g2d); 
-        System.out.println("drawing missile");
+        if (am != null) {
+            am.draw(g2d);
+            System.out.println("Drawing missile at: " + am.getX() + ", " + am.getY());
+        } else {
+            System.out.println("Null missile in list");
+        }
     }
 }
 
 private void updateMissiles() {
-    for (Projectile am : aMissiles) {
+    Iterator<Projectile> iterator = aMissiles.iterator();
+    while (iterator.hasNext()) {
+        Projectile am = iterator.next();
         am.setdy(2);
         am.setY(am.getY() + am.getdy());
+
+        if (am.getY() > getHeight()) {
+            iterator.remove();
+        }
     }
 }
     private void handleEnemyShooting() {
@@ -885,6 +914,10 @@ private void updateMissiles() {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawAlienMissiles(g);
+    }
+    private void updateGameElements() {
+        handleEnemyShooting();
+        updateMissiles();
     }
 }
         
