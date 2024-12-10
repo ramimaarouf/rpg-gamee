@@ -164,8 +164,16 @@ public void setWeapon(weapons weapon) {
     Object getImage() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
-    
-    
+    public void reduceHealth(int amount) {
+        health -= amount;
+        if (health < 0) {
+            health = 0;
+        }
+        System.out.println("Player health reduced by " + amount + ". Current health: " + health);
     }
+
+}
+    
+    
+    
   

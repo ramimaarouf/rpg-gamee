@@ -37,6 +37,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
     private boolean gameOver = false;
 private int playerScore = 0;
 private boolean isAttacking = false;
+private String dog;    
 
 private boolean moveUp = false;
 private boolean moveDown = false;
@@ -67,7 +68,6 @@ public Game(List<Ranged> eProjectiles, List<Ranged> eMissiles, Character player,
     this.eProjectiles = eProjectiles;
     this.eMissiles = eMissiles;
     this.Character = player;
-   
 }
 
 public Game() {
@@ -95,11 +95,10 @@ public Game() {
         x = 0;
 
         y = 0;
-
+dog="chose character";
         charList = setCharList();
         System.out.println(charList.size());
     
-
         for (Iterator<Characters> it = charList.iterator(); it.hasNext();) {
             Characters c = it.next();
             System.out.println(c);
@@ -196,7 +195,7 @@ public boolean checkPlayerHit() {
     for (Ranged em : eProjectiles) {
         if (player.attack(em)) {
             eMissiles.remove(em);
-            
+            player.reduceHealth(100); 
                 return true;
             }
         }
@@ -334,6 +333,13 @@ if ("character1".equals(screen)) {
             g2d.drawString("Speed: " + player.getSp(), 100, 210);
             g2d.drawString("Stamina: " + player.getStam(), 100, 260);
             g2d.drawString("Damage: " + player.getDam(), 100, 310);
+            int index = 0;
+            if(index < dog.length()){
+                if(System.currentTimeMillis()-time>100){
+                    index++;
+                    time=System.currentTimeMillis();
+                }
+            }
  }else if("weaponselection".equals(screen)){
         g2d.setColor(Color.GREEN);
         g2d.drawString("Weapon Selection", 100, 100);
