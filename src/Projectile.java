@@ -64,8 +64,14 @@ public class Projectile extends Ranged {
         
         x += speed;
     }
-
+    public boolean hit(Enemy sm) {
+        if((sm.getY()+sm.getH())>getY()&&sm.getY()<getY()+getHeight()&&
+        sm.getX()<(getX()+getWidth())&&(sm.getX()+sm.getWidth())>getX()) {
+            return true;
+        }
+                return false;
+}
+}   
    
 
     
-}

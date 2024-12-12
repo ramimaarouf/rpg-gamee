@@ -104,6 +104,18 @@ public Game() {
             Characters c = it.next();
             System.out.println(c);
         }
+        if (charList.size() > 0 && weaponsList.size() > 0) {
+            charList.get(0).setWeapon(weaponsList.get(0)); 
+            if (charList.size() > 1 && weaponsList.size() > 1) {
+                charList.get(1).setWeapon(weaponsList.get(1)); 
+                if (charList.size() > 2 && weaponsList.size() > 2) {
+                    charList.get(2).setWeapon(weaponsList.get(2)); 
+                    if (charList.size() > 3 && weaponsList.size() > 3) {
+                        charList.get(3).setWeapon(weaponsList.get(3)); 
+                    }
+                }
+            }
+        }
         screen="start";
         enemies=setEs();
 
@@ -193,14 +205,22 @@ public boolean enemyHit() {
         
     
 public boolean checkPlayerHit() {
-    for (Ranged em : eProjectiles) {
-        if (player.attack(em)) {
-            eMissiles.remove(em);
-            
-                return true;
+    Iterator<Projectile> iterator = aMissiles.iterator();
+    while (iterator.hasNext()) {
+        Projectile missile = iterator.next();
+        if (player.getX() < missile.getX() + missile.getWidth() &&
+            player.getX() + player.getW() > missile.getX() &&
+            player.getY() < missile.getY() + missile.getHeight() &&
+            player.getY() + player.getH() > missile.getY()) {
+            iterator.remove();
+            player.setHea(player.getHea() - 25); 
+            if (player.getHea() <= 0) {
+                System.out.println("player health is " + player.getHea());
+                player.setHea(0);
             }
+            return true;
         }
-    
+    }
     return false;
 }
     
@@ -282,7 +302,7 @@ public ArrayList<weapons> setWeaponList() {
                     }
                 }
                 updateGameElements();
-
+checkPlayerHit();
                 Thread.sleep(10); 
                 repaint();
             }
@@ -625,7 +645,34 @@ private void drawPyrofloraScreen(Graphics g2d) {
     drawPyrofloraBackground(g2d);
     g2d.setColor(Color.YELLOW);
     g2d.setFont(new Font("Arial", Font.BOLD, 30));
+
+    if (player != null) {
+        player.drawChar(g2d);
+        weapons playerWeapon = player.getWeapon();
+
+        if (playerWeapon != null) {
+            playerWeapon.setX(player.getX() + 50);
+            playerWeapon.setY(player.getY());
+            g2d.drawImage(playerWeapon.getImage(), playerWeapon.getX(), playerWeapon.getY(), 50, 50, null);
+        }
+    }
+
+    if (currentEnemy == null || currentEnemy.isKilled()) {
+        if (!enemyQueue.isEmpty()) {
+            currentEnemy = enemyQueue.poll();
+            currentEnemy.setPosition(500, 500); 
+        }
+    }
+
+    if (currentEnemy != null) {
+        currentEnemy.draw(g2d);
+    }
+  
+
+    g2d.setColor(Color.WHITE);
+    g2d.drawString("Score: " + playerScore, 50, 50);
 }
+
     
 public static void main(String[] args) {
     JFrame frame = new JFrame("RPG Game");
@@ -854,23 +901,19 @@ private void removeEnemy() {
 
 public void getAlienMissile() {
     if (currentEnemy != null && aMissiles != null) {
-       
-        int dx = player.getX() > currentEnemy.getX() ? 5 : -5;
-        
+        Random rand = new Random();
+        int randomX = rand.nextInt(getWidth()); // Random X position
         Projectile missile = new Projectile(
-            currentEnemy.getX() + (currentEnemy.getWidth() / 2),
+            randomX, // Random X position
             currentEnemy.getY() + currentEnemy.getHeight(),
-            dx,  
-            "Alien Missile", 
+            5, // Speed
+            "Alien Missile",
             "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png"
         );
         aMissiles.add(missile);
-        System.out.println("Missile added. Total missiles: " + aMissiles.size());
-    } else {
-        System.out.println("Cannot add missile: enemy is null or missiles list is not initialized");
+        System.out.println("Missile added at random X: " + randomX);
     }
 }
-
 public void drawAlienMissiles(Graphics g2d) {
     if (aMissiles == null) {
         System.out.println("Missiles list is null!");
@@ -890,17 +933,20 @@ public void drawAlienMissiles(Graphics g2d) {
 }
 
 private void updateMissiles() {
-    Iterator<Projectile> iterator = aMissiles.iterator();
-    while (iterator.hasNext()) {
-        Projectile am = iterator.next();
-        am.setdy(2);
-        am.setY(am.getY() + am.getdy());
+    Random rand = new Random();
+        Iterator<Projectile> iterator = aMissiles.iterator();
+        while (iterator.hasNext()) {
+            Projectile am = iterator.next();
+            int dx = rand.nextInt(11) - 5; 
+            int dy = rand.nextInt(11) - 5; 
+            am.setX(am.getX() + dx);
+            am.setY(am.getY() + dy);
 
-        if (am.getY() > getHeight()) {
-            iterator.remove();
+            if (am.getY() > getHeight() || am.getY() < 0 || am.getX() > getWidth() || am.getX() < 0) {
+                iterator.remove();
+            }
         }
     }
-}
     private void handleEnemyShooting() {
         if (currentEnemy != null && random.nextInt(100) < 2) { // 2% chance
             getAlienMissile();

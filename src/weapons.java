@@ -71,9 +71,7 @@ public class weapons {
         if (image != null) {
             g.drawImage(image, x, y, null);
         }
-        g.drawString("Damage: " + damage, x, y + 20);
-        g.drawString("Durability: " + durability, x, y + 40);
-        g.drawString("DPS: " + dps, x, y + 60);
+       
     }
 
   
