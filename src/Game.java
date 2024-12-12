@@ -48,6 +48,7 @@ private boolean moveRight = false;
     private String screen="levelselection";
     private Characters player;
     private Queue <Enemy> enemies;
+    private Queue <Enemy> oppenents;
     private boolean characterSelected = false;
     private Enemy currentEnemy;
     private Planets selectedPlanet;
@@ -212,6 +213,13 @@ temp.add (new Alien (1000,300));
 temp.add (new Alien (1000,500));
 return temp;
     }
+public Queue<Enemy> setOppenents(){
+    Queue<Enemy> temp = new LinkedList<>();
+    temp.add(new Alien(1000, 470));
+    temp.add(new Alien(1000, 300));
+    temp.add(new Alien(1000, 500));
+    return temp;
+}
 
     public ArrayList<Characters> setCharList() {
         ArrayList<Characters> temp = new ArrayList<Characters>();
@@ -333,13 +341,7 @@ if ("character1".equals(screen)) {
             g2d.drawString("Speed: " + player.getSp(), 100, 210);
             g2d.drawString("Stamina: " + player.getStam(), 100, 260);
             g2d.drawString("Damage: " + player.getDam(), 100, 310);
-            int index = 0;
-            if(index < dog.length()){
-                if(System.currentTimeMillis()-time>100){
-                    index++;
-                    time=System.currentTimeMillis();
-                }
-            }
+            
  }else if("weaponselection".equals(screen)){
         g2d.setColor(Color.GREEN);
         g2d.drawString("Weapon Selection", 100, 100);
@@ -393,7 +395,7 @@ if ("character1".equals(screen)) {
     
 }
 drawAlienMissiles(g2d);
-
+drawOppenents(g2d);
 
     twoDgraph.drawImage(back, null, 0, 0);
     drawScreens(g2d);
@@ -631,6 +633,7 @@ private void drawPyrofloraScreen(Graphics g2d) {
     drawPyrofloraBackground(g2d);
     g2d.setColor(Color.YELLOW);
     g2d.setFont(new Font("Arial", Font.BOLD, 30));
+
 }
     
 public static void main(String[] args) {
@@ -910,6 +913,11 @@ private void updateMissiles() {
     private void handleEnemyShooting() {
         if (currentEnemy != null && random.nextInt(100) < 2) { // 2% chance
             getAlienMissile();
+        }
+    }
+    public void drawOppenents(Graphics g2d) {
+        for (Enemy e : oppenents) {
+            e.draw(g2d);
         }
     }
     public void actionPerformed(ActionEvent e) {

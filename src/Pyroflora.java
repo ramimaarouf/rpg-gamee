@@ -15,7 +15,7 @@ public class Pyroflora extends Planets implements KeyListener {
     private String screen = "Planet2"; 
     private Characters player;
     private ArrayList<Characters> charList;
-    private Queue<Enemy> enemies;
+    private Queue<Enemy> oppenents;
     private boolean alienStatsPrinted = false;
 
     // Parameterized constructor
@@ -26,7 +26,7 @@ public class Pyroflora extends Planets implements KeyListener {
 
     private void initializeComponents() {
         this.charList = new ArrayList<>();
-        this.enemies = new LinkedList<>();
+        this.oppenents = new LinkedList<>();
        try{
         back=ImageIO.read(new File("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\pyroflora.png"));
        }catch(IOException e){
@@ -36,11 +36,16 @@ public class Pyroflora extends Planets implements KeyListener {
 public void drawBackground (Graphics g){
     g.drawImage(back, 0, 0, null);
 }
-public void setEnemies(){
-    enemies.add(new Alien(100, 100));
-    enemies.add(new Alien(200, 200));
-    enemies.add(new Alien(300, 300));
-    enemies.add(new Alien(400, 400));
+public void setOppenents(){
+    oppenents.add(new Alien(100, 100));
+    oppenents.add(new Alien(200, 200));
+    oppenents.add(new Alien(300, 300));
+    oppenents.add(new Alien(400, 400));
+}
+public void drawOppenents(Graphics g){
+    for(Enemy oppenent: oppenents){
+        oppenent.draw(g);
+    }
 }
     // KeyListener methods
     @Override
