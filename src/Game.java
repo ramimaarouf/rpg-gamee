@@ -37,6 +37,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
     private boolean gameOver = false;
 private int playerScore = 0;
 private boolean isAttacking = false;
+private int index;
 
 private boolean moveUp = false;
 private boolean moveDown = false;
@@ -63,10 +64,12 @@ private List <Ranged> eMissiles;
     private Character Character;
     private List<Melee> Melee;
     private List<Projectile> aMissiles;
+    private String cat;
 public Game(List<Ranged> eProjectiles, List<Ranged> eMissiles, Character player, int lives) {
     this.eProjectiles = eProjectiles;
     this.eMissiles = eMissiles;
     this.Character = player;
+    //private int index;
    
 }
 
@@ -118,7 +121,8 @@ public Game() {
         }
         screen="start";
         enemies=setEs();
-
+        index = 0;
+cat="chose your weapon";
     }
 }
 
@@ -263,10 +267,10 @@ public ArrayList<weapons> setWeaponList() {
     }
     public ArrayList<Projectile> setProjectileList() {
         ArrayList<Projectile> temp = new ArrayList<>();
-        temp.add(new Projectile(100, 100, 10, "MISSLEE", "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png"));
-        temp.add(new Projectile(100, 100, 10, "MISSLEE", "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png"));
-        temp.add(new Projectile(100, 100, 10, "MISSLEE", "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png"));
-        temp.add(new Projectile(100, 100, 10, "MISSLEE", "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png"));
+        new Projectile(100, 100, 10, "MISSLEE", "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png");
+        new Projectile(100, 100, 10, "MISSLEE", "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png");
+        new Projectile(100, 100, 10, "MISSLEE", "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png");
+        new Projectile(100, 100, 10, "MISSLEE", "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png");
         System.out.println(temp.size());
         return temp;
     }
@@ -303,6 +307,7 @@ public ArrayList<weapons> setWeaponList() {
                 }
                 updateGameElements();
 checkPlayerHit();
+checkMissileCollisions();
                 Thread.sleep(10); 
                 repaint();
             }
@@ -361,6 +366,12 @@ if ("character1".equals(screen)) {
         g2d.drawString("Press 6 for Sword", 800, 300);
         g2d.drawString("Press 7 for Gun", 800, 240);
         g2d.drawString("Press 8 for Staff", 100, 240);
+g2d.drawString(cat.substring(0,index), 100, 400);
+if(index < cat.length()){
+    if(index<cat.length()){
+        index++;
+    }
+}
         int[][] weaponPositions = {
             {100, 350}, 
             {300, 350}, 
@@ -917,15 +928,15 @@ public void getAlienMissile() {
 public void drawAlienMissiles(Graphics g2d) {
     if (aMissiles == null) {
         System.out.println("Missiles list is null!");
+        
         return;
     }
-    
-    System.out.println("Total missiles: " + aMissiles.size());
+    System.out.println("Drawing missiles");
+
     
     for (Projectile am : aMissiles) {
         if (am != null) {
             am.draw(g2d);
-            System.out.println("Drawing missile at: " + am.getX() + ", " + am.getY());
         } else {
             System.out.println("Null missile in list");
         }
@@ -964,6 +975,22 @@ private void updateMissiles() {
     private void updateGameElements() {
         handleEnemyShooting();
         updateMissiles();
+    }
+    private void checkMissileCollisions() {
+        Iterator<Projectile> iterator = aMissiles.iterator();
+        while (iterator.hasNext()) {
+            Projectile missile = iterator.next();
+            Rectangle missileBounds = missile.getBounds();
+    
+            for (Characters character : charList) {
+                if (character != null && missileBounds.intersects(character.getBounds())) {
+                    character.setHea(character.getHea() - 25);
+                    System.out.println(character.toString() + " hit! Health reduced by 25.");
+                    iterator.remove(); 
+                    break;
+                }
+            }
+        }
     }
 }
         

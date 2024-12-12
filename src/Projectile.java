@@ -1,5 +1,7 @@
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Rectangle;
+
 import javax.swing.ImageIcon;
 
 public class Projectile extends Ranged {
@@ -9,11 +11,15 @@ public class Projectile extends Ranged {
     private Image image;
     private int dx;
     private int dy;
+    public int width;
+    private int height;
 
-    public Projectile(int x, int y, int speed, String name, String imagePath) {
-        super(x, y, speed, name);
+    public Projectile(int x, int y, int width, String name, String imagePath) {
+        super(x, y,width,name);
         this.x = x;
         this.y = y;
+        this.width = width;
+        this.height = height;
         this.speed = speed;
         this.image = new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png").getImage();
     }
@@ -63,7 +69,12 @@ public class Projectile extends Ranged {
     public void move() {
         
         x += speed;
+  
     }
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, width, height);
+    }
+
     public boolean hit(Enemy sm) {
         if((sm.getY()+sm.getH())>getY()&&sm.getY()<getY()+getHeight()&&
         sm.getX()<(getX()+getWidth())&&(sm.getX()+sm.getWidth())>getX()) {
