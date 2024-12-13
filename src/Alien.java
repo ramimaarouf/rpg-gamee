@@ -9,7 +9,7 @@ public class Alien extends Enemy{
         return "Alien";
     }
     public Alien(int x,int y){
-        super(x, y, 50, 50, 2, 172, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\alien.png"), new staff(100, 2, 200));
+        super(x, y, 50, 100, 2, 172, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\alien.png"), new staff(100, 2, 200));
     }
     
 }

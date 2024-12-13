@@ -162,4 +162,5 @@ public class Enemy extends Characters {
     public void setPosition(int x, int y) {
        
     }
+    
 }

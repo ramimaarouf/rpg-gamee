@@ -1,2 +1,2 @@
 Screen: XylarisScreen
-Score: 0
+Score: 40

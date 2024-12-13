@@ -78,7 +78,7 @@ public Game() {
     aMissiles=new ArrayList<>();
     background = new Background("C:\\Users\\Demon\\Desktop\\rpg-gamee\\images\\planett.png");
     xylarisBackground = new Background("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\xxxxx.png");
-    pyrofloraBackground = new Background("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\ccc.png");
+    pyrofloraBackground = new Background("C:\\Users\\Demon\\Desktop\\i give up\\rpg-gamee\\images\\ccc.png");
     weaponsList = setWeaponList();
 {
         saveFile=new File("save.txt");
@@ -119,6 +119,7 @@ public Game() {
                 }
             }
         }
+        
         screen="start";
         enemies=setEs();
         index = 0;
@@ -219,8 +220,12 @@ public boolean checkPlayerHit() {
             iterator.remove();
             player.setHea(player.getHea() - 25); 
             if (player.getHea() <= 0) {
+                player.setHea(0); 
+    System.out.println("Player health is 0. Game over.");
                 System.out.println("player health is " + player.getHea());
                 player.setHea(0);
+                screen = "GameLostScreen";
+                repaint();
             }
             return true;
         }
@@ -228,12 +233,21 @@ public boolean checkPlayerHit() {
     return false;
 }
     
+public Characters getSelectedCharacter() {
+    return player;
+}
 
+public weapons getSelectedWeapon() {
+    return player != null ? player.getWeapon() : null;
+}
 
     public Queue<Enemy> setEs(){
         Queue<Enemy> temp = new LinkedList<>();
 temp.add (new Alien (1000,470));
 temp.add (new Alien (1000,300));
+temp.add (new Alien (1000,500));
+temp.add (new Alien (1000,500));
+temp.add (new Alien (1000,500));
 temp.add (new Alien (1000,500));
 return temp;
     }
@@ -473,6 +487,8 @@ private void drawScreens(Graphics g2d) {
                 drawXylarisScreen(g2d);
             } else if ("PyrofloraScreen".equals(screen)) {
                 drawPyrofloraScreen(g2d);
+            }else if ("GameLostScreen".equals(screen)) {
+                drawGameLostScreen(g2d);
             }
         }
         
@@ -624,7 +640,7 @@ private void drawXylarisScreen(Graphics g2d) {
     drawXylarisBackground(g2d);
     g2d.setColor(Color.YELLOW);
     g2d.setFont(new Font("Arial", Font.BOLD, 30));
-
+System.out.println("Health is " + player.getHea());
     if (player != null) {
         player.drawChar(g2d);
         weapons playerWeapon = player.getWeapon();
@@ -634,6 +650,8 @@ private void drawXylarisScreen(Graphics g2d) {
             playerWeapon.setY(player.getY());
             g2d.drawImage(playerWeapon.getImage(), playerWeapon.getX(), playerWeapon.getY(), 50, 50, null);
         }
+        g2d.setColor(Color.WHITE);
+        g2d.drawString("Health: " + player.getHea(), 1500, 50);
     }
 
     if (currentEnemy == null || currentEnemy.isKilled()) {
@@ -645,15 +663,23 @@ private void drawXylarisScreen(Graphics g2d) {
 
     if (currentEnemy != null) {
         currentEnemy.draw(g2d);
+        g2d.setColor(Color.RED);
+        g2d.drawString("Enemy Health: " + currentEnemy.getHealth(), 1420, 75);
     }
   
 
     g2d.setColor(Color.WHITE);
     g2d.drawString("Score: " + playerScore, 50, 50);
+    if (player instanceof bob && playerScore >= 30) {
+        g2d.setColor(Color.GREEN);
+        g2d.drawString("Special Ability Ready! Press 'G' to use.", 50, 100);
+    }
 }
+
     
 private void drawPyrofloraScreen(Graphics g2d) {
     drawPyrofloraBackground(g2d);
+    drawAlienMissiles(g2d);
     g2d.setColor(Color.YELLOW);
     g2d.setFont(new Font("Arial", Font.BOLD, 30));
 
@@ -666,6 +692,8 @@ private void drawPyrofloraScreen(Graphics g2d) {
             playerWeapon.setY(player.getY());
             g2d.drawImage(playerWeapon.getImage(), playerWeapon.getX(), playerWeapon.getY(), 50, 50, null);
         }
+        g2d.setColor(Color.WHITE);
+        g2d.drawString("Health: " + player.getHea(), 1500, 50);
     }
 
     if (currentEnemy == null || currentEnemy.isKilled()) {
@@ -677,13 +705,36 @@ private void drawPyrofloraScreen(Graphics g2d) {
 
     if (currentEnemy != null) {
         currentEnemy.draw(g2d);
+        g2d.setColor(Color.RED);
+        g2d.drawString("Enemy Health: " + currentEnemy.getHealth(), 1420, 75);
     }
   
 
     g2d.setColor(Color.WHITE);
     g2d.drawString("Score: " + playerScore, 50, 50);
-}
 
+}
+private void drawGameLostScreen(Graphics g2d) {
+    try {
+        System.out.println("Entering drawGameLostScreen");
+
+        // Fill the entire panel with black for visibility
+        g2d.setColor(Color.BLACK);
+        g2d.fillRect(0, 0, getWidth(), getHeight());
+
+        // Set color to red and draw text
+        g2d.setColor(Color.RED);
+        g2d.setFont(new Font("Arial", Font.BOLD, 50));
+        g2d.drawString("Game Over", getWidth() / 2 - 150, getHeight() / 2 - 25);
+
+        g2d.setFont(new Font("Arial", Font.PLAIN, 30));
+        g2d.drawString("Press 'R' to Restart", getWidth() / 2 - 150, getHeight() / 2 + 25);
+
+        System.out.println("Drawing Game Over screen...");
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
     
 public static void main(String[] args) {
     JFrame frame = new JFrame("RPG Game");
@@ -808,8 +859,21 @@ System.out.println("Screen switched to: " + screen);
                     screen = "levelselection";
                     System.out.println("Screen switched to: " + screen);
                     repaint();
-                }
-            }
+                } else if (player.getHea() <= 0) {
+                    screen = "GameLostScreen";
+                    System.out.println("Drawing Game Over screen...");
+                    System.out.println("Screen switched to: " + screen);
+                    repaint();
+                } else if (key == KeyEvent.VK_R) {
+                    initializeGame();
+                    screen = "SelectScreen";
+                    System.out.println("Screen switched to: " + screen);
+                     repaint();
+            } else if (key == KeyEvent.VK_G && player instanceof bob && playerScore >= 30) {
+                ((bob) player).specialAbility();    
+                System.out.println("ability used");
+            repaint();       
+         }
             switch(e.getKeyCode()) {
                 case KeyEvent.VK_W:
                     moveUp = true;
@@ -826,7 +890,7 @@ System.out.println("Screen switched to: " + screen);
             }
 
         }
-    
+    }
         
     
         
@@ -882,9 +946,11 @@ public void mouseDragged(MouseEvent e) {
         
         if (enemyHit()) {
             System.out.println("Enemy hit!");
-            removeEnemy();
+            reduceEnemyHealth();
         }
     }
+        
+    
 
     
 
@@ -931,7 +997,7 @@ public void drawAlienMissiles(Graphics g2d) {
         
         return;
     }
-    System.out.println("Drawing missiles");
+   // System.out.println("Drawing missiles");
 
     
     for (Projectile am : aMissiles) {
@@ -968,13 +1034,26 @@ private void updateMissiles() {
         updateMissiles();
         repaint();
     }
+   @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawAlienMissiles(g);
+        if (screen.equals("GameLostScreen")) {
+            drawGameLostScreen(g);
+        } else {
+            if (screen.equals("xylaris")) {
+                drawXylarisScreen(g);
+            } else if (screen.equals("pyroflora")) {
+                drawPyrofloraScreen(g);
+            } else if (screen.equals("levelselection")) {
+                drawLevelSelection(g);
+            }
+            drawAlienMissiles(g);
+        }
     }
     private void updateGameElements() {
         handleEnemyShooting();
         updateMissiles();
+        
     }
     private void checkMissileCollisions() {
         Iterator<Projectile> iterator = aMissiles.iterator();
@@ -989,6 +1068,19 @@ private void updateMissiles() {
                     iterator.remove(); 
                     break;
                 }
+            }
+        }
+        
+        
+    }
+    private void reduceEnemyHealth() {
+        if (currentEnemy != null) {
+            weapons playerWeapon = player.getWeapon();
+            int damage = (playerWeapon != null) ? playerWeapon.getDamage() : 0;
+            currentEnemy.setHealth(currentEnemy.getHealth() - damage);
+            System.out.println("Enemy health reduced by " + damage + ". Current health: " + currentEnemy.getHealth());
+            if (currentEnemy.getHealth() <= 0) {
+                removeEnemy();
             }
         }
     }

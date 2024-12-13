@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.FileNotFoundException;
-
 import javax.swing.*;
 public class Main extends JFrame{
 private static final int WIDTH =1800;

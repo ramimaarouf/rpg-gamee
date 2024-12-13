@@ -1,6 +1,5 @@
 import java.awt.Graphics;
 import java.awt.Rectangle;
-
 import javax.swing.ImageIcon;
 
 public class Characters{
@@ -166,7 +165,7 @@ public void setWeapon(weapons weapon) {
             return new Rectangle(x, y, w, h);
         }
     Object getImage() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     
