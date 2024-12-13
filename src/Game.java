@@ -249,6 +249,7 @@ temp.add (new Alien (1000,500));
 temp.add (new Alien (1000,500));
 temp.add (new Alien (1000,500));
 temp.add (new Alien (1000,500));
+temp.add(new AlienBoss(1000, 500));
 return temp;
     }
 

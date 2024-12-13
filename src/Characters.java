@@ -168,7 +168,25 @@ public void setWeapon(weapons weapon) {
         return null;
     }
 
-    
-    
+public void move(int deltaX, int deltaY) {
+        x += deltaX;
+        y += deltaY;
+        decreaseStamina(5);
+if (stam < 5) {
+    System.out.println("Not enough stamina to move");
+}
+}
+    private void decreaseStamina(int amount) {
+        stam -= amount;
+        if (stam < 0) {
+            stam = 0;
+        }
     }
+    public void regenerateStamina() {
+        stam += 5;
+        if (stam > 100) {
+            stam = 100;
+        }
+    }   
+}
   

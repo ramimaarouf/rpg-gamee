@@ -12,4 +12,5 @@ public class Alien extends Enemy{
         super(x, y, 50, 100, 2, 172, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\alien.png"), new staff(100, 2, 200));
     }
     
+    
 }
