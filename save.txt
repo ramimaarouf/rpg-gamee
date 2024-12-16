@@ -1,2 +1,2 @@
-Screen: XylarisScreen
-Score: 40
+Screen: GameLostScreen
+Score: 70

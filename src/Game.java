@@ -15,10 +15,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Scanner;
+import java.util.TimerTask;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.annotation.Target;
-
+import java.util.Timer;
 import javax.swing.*;
 import java.util.List;
 import javax.xml.namespace.QName;
@@ -38,7 +39,9 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 private int playerScore = 0;
 private boolean isAttacking = false;
 private int index;
-
+private long lastClickTime = 0;
+private long cooldownTime = 500; 
+private boolean dpsBoostActive = false;
 private boolean moveUp = false;
 private boolean moveDown = false;
 private boolean moveLeft = false;
@@ -249,6 +252,7 @@ temp.add (new Alien (1000,500));
 temp.add (new Alien (1000,500));
 temp.add (new Alien (1000,500));
 temp.add (new Alien (1000,500));
+temp.add (new Alien (1000,500));
 temp.add(new AlienBoss(1000, 500));
 return temp;
     }
@@ -266,7 +270,7 @@ return temp;
 public ArrayList<weapons> setWeaponList() {
         ArrayList<weapons> temp = new ArrayList<weapons>();
         ArrayList weaponsList = new ArrayList<>();
-        temp.add(new twinblade(10, 20, 30, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\twinblade.png")));
+        temp.add(new twinblade(10, 1, 30, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\twinblade.png")));
         temp.add(new sword(15, 80, 7, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\sword.png")));
         temp.add(new gun(10, 20, 30));
         temp.add(new staff(10, 20, 30 , new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\staff.png")));
@@ -293,37 +297,35 @@ public ArrayList<weapons> setWeaponList() {
         projectiles.add(new Projectile(x, y, speed, name, imagePath));
     }
     public void run() {
-       
         try {
             while (true) {
-                 if (moveUp && player != null) {
-                    player.setY(player.getY() - 5);  
-                    if (player.getWeapon() != null) {
-                        player.getWeapon().setY(player.getY());
-                    }
+                boolean isMoving = false;
+    
+                if (moveUp && player != null) {
+                    player.move(0, -5);
+                    isMoving = true;
                 }
                 if (moveDown && player != null) {
-                    player.setY(player.getY() + 5);  
-                    if (player.getWeapon() != null) {
-                        player.getWeapon().setY(player.getY());
-                    }
+                    player.move(0, 5);
+                    isMoving = true;
                 }
                 if (moveLeft && player != null) {
-                    player.setX(player.getX() - 5);  
-                    if (player.getWeapon() != null) {
-                        player.getWeapon().setX(player.getX() + player.getW()); 
-                    }
+                    player.move(-5, 0);
+                    isMoving = true;
                 }
                 if (moveRight && player != null) {
-                    player.setX(player.getX() + 5);  
-                    if (player.getWeapon() != null) {
-                        player.getWeapon().setX(player.getX() + player.getW()); 
-                    }
+                    player.move(5, 0);
+                    isMoving = true;
                 }
+    
+                if (!isMoving && player != null) {
+                    player.regenerateStamina();
+                }
+    
                 updateGameElements();
-checkPlayerHit();
-checkMissileCollisions();
-                Thread.sleep(10); 
+                checkPlayerHit();
+                checkMissileCollisions();
+                Thread.sleep(10);
                 repaint();
             }
         } catch (Exception e) {
@@ -641,7 +643,7 @@ private void drawXylarisScreen(Graphics g2d) {
     drawXylarisBackground(g2d);
     g2d.setColor(Color.YELLOW);
     g2d.setFont(new Font("Arial", Font.BOLD, 30));
-System.out.println("Health is " + player.getHea());
+    System.out.println("Health is " + player.getHea());
     if (player != null) {
         player.drawChar(g2d);
         weapons playerWeapon = player.getWeapon();
@@ -653,6 +655,7 @@ System.out.println("Health is " + player.getHea());
         }
         g2d.setColor(Color.WHITE);
         g2d.drawString("Health: " + player.getHea(), 1500, 50);
+        g2d.drawString("Stamina: " + player.getStam(), 800, 100);
     }
 
     if (currentEnemy == null || currentEnemy.isKilled()) {
@@ -667,11 +670,11 @@ System.out.println("Health is " + player.getHea());
         g2d.setColor(Color.RED);
         g2d.drawString("Enemy Health: " + currentEnemy.getHealth(), 1420, 75);
     }
-  
 
     g2d.setColor(Color.WHITE);
     g2d.drawString("Score: " + playerScore, 50, 50);
-    if (player instanceof bob && playerScore >= 30) {
+
+    if (player instanceof rami && playerScore >= 30) {
         g2d.setColor(Color.GREEN);
         g2d.drawString("Special Ability Ready! Press 'G' to use.", 50, 100);
     }
@@ -870,9 +873,9 @@ System.out.println("Screen switched to: " + screen);
                     screen = "SelectScreen";
                     System.out.println("Screen switched to: " + screen);
                      repaint();
-            } else if (key == KeyEvent.VK_G && player instanceof bob && playerScore >= 30) {
-                ((bob) player).specialAbility();    
-                System.out.println("ability used");
+            } else if (key == KeyEvent.VK_G && player instanceof rami && playerScore >= 30) {
+                ((rami) player).specialAbility();    
+        System.out.println("Ability used. Current weapon damage: " + ((rami) player).getWeapon().getDamage());
             repaint();       
          }
             switch(e.getKeyCode()) {
@@ -941,6 +944,9 @@ public void mouseDragged(MouseEvent e) {
 
     @Override
     public void mousePressed(MouseEvent e) {
+    long currentTime = System.currentTimeMillis();
+    if (currentTime - lastClickTime >= cooldownTime) {
+        lastClickTime = currentTime;
         x = e.getX();
         y = e.getY();
         System.out.println("Mouse pressed at (" + x + ", " + y + ")");
@@ -949,8 +955,15 @@ public void mouseDragged(MouseEvent e) {
             System.out.println("Enemy hit!");
             reduceEnemyHealth();
         }
+    } else {
+        System.out.println("Cooldown active. Please wait.");
     }
-        
+
+    if (player != null) {
+        player.decreaseStamina(5); 
+        System.out.println("Losing stamina due to mouse press. Current stamina: " + player.getStam());
+    }
+}
     
 
     
@@ -980,11 +993,11 @@ private void removeEnemy() {
 public void getAlienMissile() {
     if (currentEnemy != null && aMissiles != null) {
         Random rand = new Random();
-        int randomX = rand.nextInt(getWidth()); // Random X position
+        int randomX = rand.nextInt(getWidth()); 
         Projectile missile = new Projectile(
-            randomX, // Random X position
+            randomX, 
             currentEnemy.getY() + currentEnemy.getHeight(),
-            5, // Speed
+            5, 
             "Alien Missile",
             "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\MISSLEE.png"
         );
@@ -1064,20 +1077,32 @@ private void updateMissiles() {
     
             for (Characters character : charList) {
                 if (character != null && missileBounds.intersects(character.getBounds())) {
-                    character.setHea(character.getHea() - 25);
-                    System.out.println(character.toString() + " hit! Health reduced by 25.");
-                    iterator.remove(); 
+                    int damage = 25; 
+    
+                    
+                    if (currentEnemy instanceof AlienBoss) {
+                        damage *= 2; 
+                    }
+    
+                    character.setHea(character.getHea() - damage);
+                    System.out.println(character.toString() + " hit! Health reduced by " + damage + ".");
+                    iterator.remove();
                     break;
                 }
             }
         }
-        
-        
     }
     private void reduceEnemyHealth() {
         if (currentEnemy != null) {
             weapons playerWeapon = player.getWeapon();
             int damage = (playerWeapon != null) ? playerWeapon.getDamage() : 0;
+    
+            // Apply special ability if conditions are met
+            if (player instanceof rami && playerScore >= 30) {
+                ((rami) player).specialAbility();
+                damage = playerWeapon.getDamage(); // Update damage after special ability
+            }
+    
             currentEnemy.setHealth(currentEnemy.getHealth() - damage);
             System.out.println("Enemy health reduced by " + damage + ". Current health: " + currentEnemy.getHealth());
             if (currentEnemy.getHealth() <= 0) {
@@ -1085,5 +1110,16 @@ private void updateMissiles() {
             }
         }
     }
+    public void activateDPSBoost() {
+    dpsBoostActive = true;
+    cooldownTime = 0;    
+    new Timer().schedule(new TimerTask() {
+        @Override
+        public void run() {
+            dpsBoostActive = false;
+            cooldownTime = 500; 
+        }
+    }, 10000);
+}
 }
         

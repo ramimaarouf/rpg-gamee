@@ -168,15 +168,31 @@ public void setWeapon(weapons weapon) {
         return null;
     }
 
-public void move(int deltaX, int deltaY) {
-        x += deltaX;
-        y += deltaY;
-        decreaseStamina(5);
-if (stam < 5) {
-    System.out.println("Not enough stamina to move");
-}
-}
-    private void decreaseStamina(int amount) {
+    public void move(int deltaX, int deltaY) {
+        if (stam > 0) {
+            int speedMultiplier = getSpeedMultiplier();
+            x += deltaX * speedMultiplier;
+            y += deltaY * speedMultiplier;
+            decreaseStamina(1);
+            System.out.println("Losing stamina. Current stamina: " + stam);
+            if (stam < 5) {
+                System.out.println("Not enough stamina to move");
+            }
+        } else {
+            noStamina();
+        }
+    }
+
+    private int getSpeedMultiplier() {
+        if (speed > 75) {
+            return 3; 
+        } else if (speed > 50) {
+            return 2; 
+        } else {
+            return 1; 
+        }
+    }
+    public  void decreaseStamina(int amount) {
         stam -= amount;
         if (stam < 0) {
             stam = 0;
@@ -188,5 +204,10 @@ if (stam < 5) {
             stam = 100;
         }
     }   
+    public void noStamina(){
+        if (stam==0){
+            System.out.println("No stamina left");
+        }
+    }
 }
   

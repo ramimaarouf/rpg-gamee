@@ -12,7 +12,7 @@ public class bob extends Characters {
     }
 
     public bob(int x, int y) {
-        super(x, y, 300, 300, 200, 100, 150, 100, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\bob.png"));
+        super(x, y, 300, 300, 200, 100, 150, 100, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\bobb.png"));
     }
     public String toString(){
         return "bob"+ super.getHea() + " " + super.getDam() + " " + super.getStam()+" " + super.getSp();
@@ -21,10 +21,4 @@ public class bob extends Characters {
         if (weapon instanceof gun){
             g.drawImage(weapon.getImage(), x, y, null);}
         }
-        public void specialAbility() {
-            if (weapon instanceof gun) {
-                weapon.setDamage(weapon.getDamage() + 50);
-                System.out.println("Gun's damage has increased by 50. Current gun damage: " + weapon.getDamage());
-            }
-        }
-    }    
+} 

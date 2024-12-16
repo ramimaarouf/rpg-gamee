@@ -6,7 +6,7 @@ public class sword extends weapons {
 }
 
 public sword(int x, int y, int i, ImageIcon imageIcon) {
-        super(15, 80, 7, "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\sword.png");
+        super(25, 80, 7, "C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\sword.png");
     }
     
 }

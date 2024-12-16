@@ -8,7 +8,7 @@ public class AlienBoss extends Enemy{
         return "Alien";
     }
     public AlienBoss(int x,int y){
-        super(x, y, 25, 500, 75, 170, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\alien.png"), new staff(100, 2, 200));
+        super(x, y, 25, 500, 75, 170, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\Alienbosss.png"), new staff(100, 2, 200));
     }
     
     

@@ -78,7 +78,9 @@ public class weapons {
     public int getDam() {
         return damage;
     }
-
+    public void setDam(int damage) {
+        this.damage = damage;
+    }
     void draw(Graphics2D g2d, int x, int y) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
