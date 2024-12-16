@@ -51,8 +51,10 @@ private boolean moveRight = false;
     private String screen="levelselection";
     private Characters player;
     private Queue <Enemy> enemies;
+    private Queue<Enemy> enemyQueue2;
     private boolean characterSelected = false;
     private Enemy currentEnemy;
+    private Enemy currentEnemy2;
     private Planets selectedPlanet;
     private weapons selectedWeapon = null;
     private ArrayList<weapons> weaponsList;
@@ -79,6 +81,7 @@ public Game(List<Ranged> eProjectiles, List<Ranged> eMissiles, Character player,
 public Game() {
     initializeGame();
     aMissiles=new ArrayList<>();
+    enemyQueue2 = setEs2();
     background = new Background("C:\\Users\\Demon\\Desktop\\rpg-gamee\\images\\planett.png");
     xylarisBackground = new Background("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\xxxxx.png");
     pyrofloraBackground = new Background("C:\\Users\\Demon\\Desktop\\i give up\\rpg-gamee\\images\\ccc.png");
@@ -256,7 +259,18 @@ temp.add (new Alien (1000,500));
 temp.add(new AlienBoss(1000, 500));
 return temp;
     }
-
+    public Queue<Enemy> setEs2() {
+        Queue<Enemy> temp = new LinkedList<>();
+        temp.add(new LavaAliens(1200, 470));
+        temp.add(new LavaAliens(1200, 300));
+        temp.add(new LavaAliens(1200, 500));
+        temp.add(new LavaAliens(1200, 500));
+        temp.add(new LavaAliens(1200, 500));
+        temp.add(new LavaAliens(1200, 500));
+        temp.add(new LavaAliens(1200, 500));
+        temp.add(new LavaBoss(1200, 500));
+        return temp;
+    }
     public ArrayList<Characters> setCharList() {
         ArrayList<Characters> temp = new ArrayList<Characters>();
 
@@ -643,7 +657,7 @@ private void drawXylarisScreen(Graphics g2d) {
     drawXylarisBackground(g2d);
     g2d.setColor(Color.YELLOW);
     g2d.setFont(new Font("Arial", Font.BOLD, 30));
-    System.out.println("Health is " + player.getHea());
+    //System.out.println("Health is " + player.getHea());
     if (player != null) {
         player.drawChar(g2d);
         weapons playerWeapon = player.getWeapon();
@@ -678,6 +692,18 @@ private void drawXylarisScreen(Graphics g2d) {
         g2d.setColor(Color.GREEN);
         g2d.drawString("Special Ability Ready! Press 'G' to use.", 50, 100);
     }
+    if (player instanceof bob && playerScore >= 30) {
+        g2d.setColor(Color.GREEN);
+        g2d.drawString("Special Ability Ready! Press 'G' to use.", 50, 100);
+    }
+    if (player instanceof jack && playerScore >= 30) {
+        g2d.setColor(Color.GREEN);
+        g2d.drawString("Special Ability Ready! Press 'G' to use.", 50, 100);
+    }
+    if (player instanceof cory && playerScore >= 30) {
+        g2d.setColor(Color.GREEN);
+        g2d.drawString("Special Ability Ready! Press 'G' to use.", 50, 100);
+    }
 }
 
     
@@ -700,17 +726,17 @@ private void drawPyrofloraScreen(Graphics g2d) {
         g2d.drawString("Health: " + player.getHea(), 1500, 50);
     }
 
-    if (currentEnemy == null || currentEnemy.isKilled()) {
-        if (!enemyQueue.isEmpty()) {
-            currentEnemy = enemyQueue.poll();
-            currentEnemy.setPosition(500, 500); 
+    if (currentEnemy2 == null || currentEnemy2.isKilled()) {
+        if (!enemyQueue2.isEmpty()) {
+            currentEnemy2 = enemyQueue2.poll();
+            currentEnemy2.setPosition(700, 500); 
         }
     }
 
-    if (currentEnemy != null) {
-        currentEnemy.draw(g2d);
+    if (currentEnemy2 != null) {
+        currentEnemy2.draw(g2d);
         g2d.setColor(Color.RED);
-        g2d.drawString("Enemy Health: " + currentEnemy.getHealth(), 1420, 75);
+        g2d.drawString("Enemy Health: " + currentEnemy2.getHealth(), 1420, 100);
     }
   
 
@@ -739,15 +765,6 @@ private void drawGameLostScreen(Graphics g2d) {
         e.printStackTrace();
     }
 }
-    
-public static void main(String[] args) {
-    JFrame frame = new JFrame("RPG Game");
-    frame.setSize(1600, 800);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setContentPane(new Game());
-    frame.setVisible(true);
-}
-
 
 
 
@@ -846,7 +863,7 @@ System.out.println("Screen switched to: " + screen);
          } else if (key == KeyEvent.VK_C) {
             screen = "PyrofloraScreen";
             System.out.println("Screen switched to: " + screen);
-            repaint();
+            //repaint();
             }
             if (key == KeyEvent.VK_M) {
                 loadScreenState(); 
@@ -862,22 +879,30 @@ System.out.println("Screen switched to: " + screen);
                 if (key == KeyEvent.VK_X) {
                     screen = "levelselection";
                     System.out.println("Screen switched to: " + screen);
-                    repaint();
+                  //  repaint();
                 } else if (player.getHea() <= 0) {
                     screen = "GameLostScreen";
                     System.out.println("Drawing Game Over screen...");
                     System.out.println("Screen switched to: " + screen);
-                    repaint();
+                 //   repaint();
                 } else if (key == KeyEvent.VK_R) {
                     initializeGame();
                     screen = "SelectScreen";
                     System.out.println("Screen switched to: " + screen);
-                     repaint();
-            } else if (key == KeyEvent.VK_G && player instanceof rami && playerScore >= 30) {
+                    // repaint();
+            } else if (key == KeyEvent.VK_G && player instanceof rami ) {
                 ((rami) player).specialAbility();    
         System.out.println("Ability used. Current weapon damage: " + ((rami) player).getWeapon().getDamage());
-            repaint();       
-         }
+           // repaint();       
+         }else if (key == KeyEvent.VK_G && player instanceof bob ) {
+            ((bob) player).specialAbility();    
+    System.out.println("Ability used. Current weapon damage: " + ((bob) player).getWeapon().getDamage());
+}else if (key == KeyEvent.VK_G && player instanceof cory ) {
+    ((cory) player).specialAbility();    
+System.out.println("Ability used. Current weapon damage: " + ((cory) player).getWeapon().getDamage());
+}else if (key == KeyEvent.VK_G && player instanceof jack ) {
+    ((jack) player).specialAbility();    
+System.out.println("Ability used. Current weapon damage: " + ((jack) player).getWeapon().getDamage());
             switch(e.getKeyCode()) {
                 case KeyEvent.VK_W:
                     moveUp = true;
@@ -895,7 +920,7 @@ System.out.println("Screen switched to: " + screen);
 
         }
     }
-        
+}   
     
         
     
@@ -1097,10 +1122,10 @@ private void updateMissiles() {
             weapons playerWeapon = player.getWeapon();
             int damage = (playerWeapon != null) ? playerWeapon.getDamage() : 0;
     
-            // Apply special ability if conditions are met
             if (player instanceof rami && playerScore >= 30) {
+                System.out.println("should be using extra dmg");
                 ((rami) player).specialAbility();
-                damage = playerWeapon.getDamage(); // Update damage after special ability
+                damage = playerWeapon.getDamage(); 
             }
     
             currentEnemy.setHealth(currentEnemy.getHealth() - damage);

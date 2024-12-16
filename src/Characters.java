@@ -167,7 +167,18 @@ public void setWeapon(weapons weapon) {
     Object getImage() {
         return null;
     }
-
+    public void increaseDamage(int amount) {
+        this.damage += amount;
+    }
+    public void increaseSpeed(int amount) {
+        this.speed += amount;
+    }
+    public void increaseHealth(int amount) {
+        this.health += amount;
+    }
+    public void increaseStamina(int amount) {
+        this.stam += amount;
+    }
     public void move(int deltaX, int deltaY) {
         if (stam > 0) {
             int speedMultiplier = getSpeedMultiplier();

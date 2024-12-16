@@ -12,7 +12,7 @@ public class jack extends Characters {
     }
 
     public jack(int x, int y) {
-        super(x, y, 300, 300, 400, 100, 150, 60, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\jackk.png"));
+        super(x, y, 300, 300, 20, 120, 150, 20, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\jackk.png"));
     }
     public String toString(){
         return "jack"+ super.getHea() + " " + super.getDam() + " " + super.getStam()+" " + super.getSp();
@@ -21,4 +21,9 @@ public class jack extends Characters {
         if (weapon instanceof staff){
             g.drawImage(weapon.getImage(), x, y, null);}
         }
+        public void specialAbility() {
+            increaseSpeed(50);
+            System.out.println("Speed has increased by 50. Current damage: " + getDam());
+        }
     }
+    

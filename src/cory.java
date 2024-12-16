@@ -12,7 +12,7 @@ public class cory extends Characters {
     }
 
     public cory(int x, int y) {
-        super(x, y, 300, 300, 40, 120, 15, 1000, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\coryy.png"));
+        super(x, y, 300, 300, 55, 180, 70, 20, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\coryy.png"));
     }
     public String toString(){
         return "cory"+ super.getHea() + " " + super.getDam() + " " + super.getStam()+" " + super.getSp()+ ""+super.getWeapon();
@@ -21,4 +21,9 @@ public class cory extends Characters {
         if (weapon instanceof twinblade){
             g.drawImage(weapon.getImage(), x, y, null);}
         }
+        public void specialAbility() {
+            increaseStamina(50);
+            System.out.println("stamina has increased by 50. Current damage: " + getDam());
+        }
     }
+    
