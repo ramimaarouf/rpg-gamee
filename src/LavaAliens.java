@@ -8,7 +8,7 @@ public class LavaAliens extends Enemy{
         return "LavaAliens";
     }
     public LavaAliens(int x,int y){
-        super(x, y, 50, 125, 2, 172, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\LavaBoss.png"), new staff(100, 2, 200));
+        super(x, y, 50, 125, 2, 172, new ImageIcon("C:\\Users\\Demon\\Desktop\\i give up\\rpg-gamee\\images\\LavaBoss.png"), new staff(100, 2, 200));
     }
     
     

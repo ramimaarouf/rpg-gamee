@@ -8,7 +8,7 @@ public class LavaBoss extends Enemy{
         return "LavaBoss";
     }
     public LavaBoss(int x,int y){
-        super(x, y, 25, 800, 90, 170, new ImageIcon("C:\\Users\\Demon\\Desktop\\gannee\\rpg-gamee\\images\\LavaAlien.png"), new staff(100, 2, 200));
+        super(x, y, 25, 800, 90, 170, new ImageIcon("C:\\Users\\Demon\\Desktop\\i give up\\rpg-gamee\\images\\LavaAlien.png"), new staff(100, 2, 200));
     }
     public void specialAbility() {
         setDamage(getDamage() + 30);

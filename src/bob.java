@@ -23,6 +23,6 @@ public class bob extends Characters {
         }
         public void specialAbility() {
             increaseHealth(30);
-            System.out.println("Health has increased by 30. Current damage: " + getDam());
+            System.out.println("Health has increased by 30. Current damage " );
         }
     }

@@ -128,6 +128,7 @@ public Game() {
         
         screen="start";
         enemies=setEs();
+        enemyQueue2 = setEs2();
         index = 0;
 cat="chose your weapon";
     }
@@ -135,7 +136,9 @@ cat="chose your weapon";
 
 public void initializeGame() {
     enemyQueue = setEs();
+    enemyQueue2 = setEs2();
     currentEnemy = null;
+    currentEnemy2 = null;
     player = new Characters();
     playerScore = 0;
 }
@@ -682,7 +685,7 @@ private void drawXylarisScreen(Graphics g2d) {
     if (currentEnemy != null) {
         currentEnemy.draw(g2d);
         g2d.setColor(Color.RED);
-        g2d.drawString("Enemy Health: " + currentEnemy.getHealth(), 1420, 75);
+        g2d.drawString("Enemy Health: " + currentEnemy.getHealth(), 1400, 75);
     }
 
     g2d.setColor(Color.WHITE);
@@ -695,6 +698,7 @@ private void drawXylarisScreen(Graphics g2d) {
     if (player instanceof bob && playerScore >= 30) {
         g2d.setColor(Color.GREEN);
         g2d.drawString("Special Ability Ready! Press 'G' to use.", 50, 100);
+        
     }
     if (player instanceof jack && playerScore >= 30) {
         g2d.setColor(Color.GREEN);
@@ -724,6 +728,7 @@ private void drawPyrofloraScreen(Graphics g2d) {
         }
         g2d.setColor(Color.WHITE);
         g2d.drawString("Health: " + player.getHea(), 1500, 50);
+   g2d.drawString("Stamina: " + player.getStam(), 800, 100);
     }
 
     if (currentEnemy2 == null || currentEnemy2.isKilled()) {
@@ -736,14 +741,31 @@ private void drawPyrofloraScreen(Graphics g2d) {
     if (currentEnemy2 != null) {
         currentEnemy2.draw(g2d);
         g2d.setColor(Color.RED);
-        g2d.drawString("Enemy Health: " + currentEnemy2.getHealth(), 1420, 100);
+        g2d.drawString("Enemy Health: " + currentEnemy2.getHealth(), 1400, 100);
     }
   
 
     g2d.setColor(Color.WHITE);
     g2d.drawString("Score: " + playerScore, 50, 50);
 
+if (player instanceof rami && playerScore >= 30) {
+        g2d.setColor(Color.GREEN);
+        g2d.drawString("Special Ability Ready! Press 'G' to use.", 50, 100);
+    }
+    if (player instanceof bob && playerScore >= 30) {
+        g2d.setColor(Color.GREEN);
+        g2d.drawString("Special Ability Ready! Press 'G' to use.", 50, 100);
+    }
+    if (player instanceof jack && playerScore >= 30) {
+        g2d.setColor(Color.GREEN);
+        g2d.drawString("Special Ability Ready! Press 'G' to use.", 50, 100);
+    }
+    if (player instanceof cory && playerScore >= 30) {
+        g2d.setColor(Color.GREEN);
+        g2d.drawString("Special Ability Ready! Press 'G' to use.", 50, 100);
+    }
 }
+
 private void drawGameLostScreen(Graphics g2d) {
     try {
         System.out.println("Entering drawGameLostScreen");
@@ -801,6 +823,20 @@ private void drawGameLostScreen(Graphics g2d) {
     public void keyPressed(KeyEvent e) {
         key = e.getKeyCode();
         System.out.println(key);
+        switch(e.getKeyCode()) {
+            case KeyEvent.VK_W:
+                moveUp = true;
+                break;
+            case KeyEvent.VK_S:
+                moveDown = true;
+                break;
+            case KeyEvent.VK_A:
+                moveLeft = true;
+                break;
+            case KeyEvent.VK_D:
+                moveRight = true;
+                break;
+        }
         if (key == 49) {
             screen = "character1";
             player = charList.get(0);
@@ -890,34 +926,19 @@ System.out.println("Screen switched to: " + screen);
                     screen = "SelectScreen";
                     System.out.println("Screen switched to: " + screen);
                     // repaint();
-            } else if (key == KeyEvent.VK_G && player instanceof rami ) {
-                ((rami) player).specialAbility();    
-        System.out.println("Ability used. Current weapon damage: " + ((rami) player).getWeapon().getDamage());
-           // repaint();       
-         }else if (key == KeyEvent.VK_G && player instanceof bob ) {
-            ((bob) player).specialAbility();    
-    System.out.println("Ability used. Current weapon damage: " + ((bob) player).getWeapon().getDamage());
-}else if (key == KeyEvent.VK_G && player instanceof cory ) {
-    ((cory) player).specialAbility();    
-System.out.println("Ability used. Current weapon damage: " + ((cory) player).getWeapon().getDamage());
-}else if (key == KeyEvent.VK_G && player instanceof jack ) {
-    ((jack) player).specialAbility();    
-System.out.println("Ability used. Current weapon damage: " + ((jack) player).getWeapon().getDamage());
-            switch(e.getKeyCode()) {
-                case KeyEvent.VK_W:
-                    moveUp = true;
-                    break;
-                case KeyEvent.VK_S:
-                    moveDown = true;
-                    break;
-                case KeyEvent.VK_A:
-                    moveLeft = true;
-                    break;
-                case KeyEvent.VK_D:
-                    moveRight = true;
-                    break;
-            }
-
+                    if (key == KeyEvent.VK_G && player instanceof rami && playerScore >= 30) {
+                        ((rami) player).specialAbility();
+                        System.out.println("Ability used");
+                    } else if (key == KeyEvent.VK_H && player instanceof bob && playerScore >= 30) {
+                        ((bob) player).specialAbility();
+                        System.out.println("Ability used");
+                    } else if (key == KeyEvent.VK_J && player instanceof cory && playerScore >= 30) {
+                        ((cory) player).specialAbility();
+                        System.out.println("Ability used");
+                    } else if (key == KeyEvent.VK_K && player instanceof jack && playerScore >= 30) {
+                        ((jack) player).specialAbility();
+                        System.out.println("Ability used");
+                    }
         }
     }
 }   
@@ -999,18 +1020,28 @@ public void mouseDragged(MouseEvent e) {
     }
 
         
-private void removeEnemy() {
-    if(!enemies.isEmpty()){
-    enemies.remove();
-    currentEnemy = null; 
-  playerScore += 10;
-    System.out.println("Enemy removed. Score: " + playerScore);
-    if (enemies.isEmpty()) {
-        System.out.println("You got him !");
-    }else{}
-    System.out.println("You beat the planet !");
-}
-}
+    private void removeEnemy() {
+        if (currentEnemy != null && !enemies.isEmpty()) {
+            enemies.remove();
+            currentEnemy = null; 
+            playerScore += 10;
+            System.out.println("Enemy removed from first queue. Score: " + playerScore);
+            if (enemies.isEmpty()) {
+                System.out.println("All enemies in first queue defeated!");
+            }
+        } 
+        
+        if (currentEnemy2 != null && !enemyQueue2.isEmpty()) {
+            enemyQueue2.remove();
+            currentEnemy2 = null; 
+            playerScore += 10;
+            System.out.println("Enemy removed from second queue. Score: " + playerScore);
+            if (enemyQueue2.isEmpty()) {
+                System.out.println("All enemies in second queue defeated!");
+            }
+        }
+    }
+    
 
     
 
@@ -1099,38 +1130,50 @@ private void updateMissiles() {
         while (iterator.hasNext()) {
             Projectile missile = iterator.next();
             Rectangle missileBounds = missile.getBounds();
-    
-            for (Characters character : charList) {
-                if (character != null && missileBounds.intersects(character.getBounds())) {
-                    int damage = 25; 
-    
-                    
-                    if (currentEnemy instanceof AlienBoss) {
-                        damage *= 2; 
-                    }
-    
-                    character.setHea(character.getHea() - damage);
-                    System.out.println(character.toString() + " hit! Health reduced by " + damage + ".");
-                    iterator.remove();
-                    break;
+
+            if (currentEnemy != null && missileBounds.intersects(currentEnemy.getBounds())) {
+                currentEnemy.setHealth(currentEnemy.getHealth() - player.getWeapon().getDamage());
+                System.out.println("Hit first queue enemy. Health: " + currentEnemy.getHealth());
+                if (currentEnemy.getHealth() <= 0) {
+                    removeEnemy();
                 }
+                iterator.remove();
+                break;
+            }
+
+            if (currentEnemy2 != null && missileBounds.intersects(currentEnemy2.getBounds())) {
+                currentEnemy2.setHealth(currentEnemy2.getHealth() - player.getWeapon().getDamage());
+                System.out.println("Hit second queue enemy. Health: " + currentEnemy2.getHealth());
+                if (currentEnemy2.getHealth() <= 0) {
+                    removeEnemy();
+                }
+                iterator.remove();
+                break;
             }
         }
     }
     private void reduceEnemyHealth() {
+        weapons playerWeapon = player.getWeapon();
+        int damage = (playerWeapon != null) ? playerWeapon.getDamage() : 0;
+    
+        if (player instanceof rami && playerScore >= 30) {
+            System.out.println("should be using extra dmg");
+            ((rami) player).specialAbility();
+            damage = playerWeapon.getDamage(); 
+        }
+    
         if (currentEnemy != null) {
-            weapons playerWeapon = player.getWeapon();
-            int damage = (playerWeapon != null) ? playerWeapon.getDamage() : 0;
-    
-            if (player instanceof rami && playerScore >= 30) {
-                System.out.println("should be using extra dmg");
-                ((rami) player).specialAbility();
-                damage = playerWeapon.getDamage(); 
-            }
-    
             currentEnemy.setHealth(currentEnemy.getHealth() - damage);
             System.out.println("Enemy health reduced by " + damage + ". Current health: " + currentEnemy.getHealth());
             if (currentEnemy.getHealth() <= 0) {
+                removeEnemy();
+            }
+        }
+    
+        if (currentEnemy2 != null) {
+            currentEnemy2.setHealth(currentEnemy2.getHealth() - damage);
+            System.out.println("Enemy2 health reduced by " + damage + ". Current health: " + currentEnemy2.getHealth());
+            if (currentEnemy2.getHealth() <= 0) {
                 removeEnemy();
             }
         }
