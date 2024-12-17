@@ -8,7 +8,7 @@ public class Characters{
     protected ImageIcon pic;
 private weapons weap;
 private weapons weapon;
-
+private Inventory inventory;
 private weapons currentWeapon;
 public Characters (){
     x=0;
@@ -36,6 +36,7 @@ public Characters (int xV, int yV, int width, int height , int sp, int hea, int 
     dx=0;
     dy=0;
    this.weap=weap;
+   this.inventory = new Inventory();
 }
 public Characters (int xV, int yV, int width, int height , int sp, int hea, int st,int dam ,ImageIcon p){
     x=xV;
@@ -219,6 +220,12 @@ public void setWeapon(weapons weapon) {
         if (stam==0){
             System.out.println("No stamina left");
         }
+    }
+    public Inventory getInventory() {
+        return inventory;
+    }
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 }
   
