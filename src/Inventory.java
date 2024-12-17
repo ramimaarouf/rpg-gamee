@@ -26,4 +26,5 @@ public class Inventory {
             System.out.println(item.getName());
         }
     }
+    
 }
