@@ -8,8 +8,5 @@ public class Item {
     public String getName() {
         return name;
     }
-    public void AlienArtifact(){
-        
-        System.out.println("Alien Artifact");
-    }
+
 }

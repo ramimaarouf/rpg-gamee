@@ -3,13 +3,16 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 public class Characters{
-   
+    public boolean isInvincible() {
+        return isInvincible;
+    }
     public int x,y,w,h , speed, health , damage,stam ,dx,dy;
     protected ImageIcon pic;
 private weapons weap;
 private weapons weapon;
 private Inventory inventory;
 private weapons currentWeapon;
+private boolean isInvincible = false;
 public Characters (){
     x=0;
     y=0;
@@ -61,6 +64,7 @@ public void drawChar(Graphics g2d) {
         int weaponY = y;
         g2d.drawImage(currentWeapon.getImage(), weaponX, weaponY, 50, 50, null);
     }
+    
 }
 public int getX(){
     return this.x;
@@ -220,12 +224,23 @@ public void setWeapon(weapons weapon) {
         if (stam==0){
             System.out.println("No stamina left");
         }
+        
     }
     public Inventory getInventory() {
         return inventory;
     }
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
+    }
+    public void setInvincible(boolean invincible) {
+        this.isInvincible = invincible;
+    }
+    public boolean checkPlayerHit() {
+        if (isInvincible) {
+            System.out.println("Player is invincible. No damage taken.");
+            return false;
+        }
+        return true; 
     }
 }
   

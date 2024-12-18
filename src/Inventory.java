@@ -26,5 +26,7 @@ public class Inventory {
             System.out.println(item.getName());
         }
     }
-    
+    public void add(Item item) {
+        
+    }
 }

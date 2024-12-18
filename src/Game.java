@@ -509,6 +509,8 @@ private void drawScreens(Graphics g2d) {
                 drawPyrofloraScreen(g2d);
             }else if ("GameLostScreen".equals(screen)) {
                 drawGameLostScreen(g2d);
+            }if ("inventory".equals(screen)) {
+                drawInventoryScreen(g2d);
             }
         }
         
@@ -938,7 +940,20 @@ System.out.println("Screen switched to: " + screen);
                     } else if (key == KeyEvent.VK_K && player instanceof jack && playerScore >= 30) {
                         ((jack) player).specialAbility();
                         System.out.println("Ability used");
+                    }else if (key == KeyEvent.VK_M) { // Inventory key
+                        screen = "inventory";
+                        repaint();
+                    } else if (key == KeyEvent.VK_U) { // 'U' key to use the artifact
+                    for (Item item : player.getInventory().getItems()) {
+                        if (item instanceof AlienArtifact) {
+                            if (item instanceof AlienArtifact) {
+                                ((AlienArtifact) item).useArtifact(player);
+                            }
+                            player.getInventory().removeItem(item);
+                            break;
+                        }
                     }
+                }
         }
     }
 }   
@@ -1038,11 +1053,14 @@ public void mouseDragged(MouseEvent e) {
             System.out.println("Enemy removed from second queue. Score: " + playerScore);
             if (enemyQueue2.isEmpty()) {
                 System.out.println("All enemies in second queue defeated!");
+                if (Math.random() < 0.2) { // 20% chance
+                    AlienArtifact artifact = new AlienArtifact();
+                    player.getInventory().addItem(artifact);
+                    System.out.println("Alien Artifact dropped!");
+                }
             }
         }
     }
-    
-
     
 
 
@@ -1188,6 +1206,19 @@ private void updateMissiles() {
             cooldownTime = 500; 
         }
     }, 10000);
+}
+private void drawInventoryScreen(Graphics g2d) {
+    g2d.setColor(Color.BLACK);
+    g2d.fillRect(0, 0, getWidth(), getHeight());
+    g2d.setColor(Color.WHITE);
+    g2d.setFont(new Font("Arial", Font.BOLD, 30));
+    g2d.drawString("Inventory", 50, 50);
+
+    int yOffset = 100;
+    for (Item item : player.getInventory().getItems()) {
+        g2d.drawString(item.getName(), 50, yOffset);
+        yOffset += 50;
+    }
 }
 }
         //update
